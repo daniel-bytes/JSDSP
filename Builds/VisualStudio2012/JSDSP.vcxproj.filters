@@ -8,6 +8,12 @@
     <Filter Include="JSDSP\Source">
       <UniqueIdentifier>{D4C9C60C-F2E1-5702-76B2-DBF3177CB7D7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JSDSP\Source\Audio">
+      <UniqueIdentifier>{FBA6C474-F4FD-3A76-9E79-8FA48B945807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JSDSP\Source\UI">
+      <UniqueIdentifier>{E0F8CD17-24BE-843A-5CDA-0A4633D04FD5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
     </Filter>
@@ -298,8 +304,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MainMenuBar.cpp">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MainWindow.cpp">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptRunner.cpp">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>JSDSP\Source</Filter>
+      <Filter>JSDSP\Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -1467,6 +1482,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MainMenuBar.h">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MainWindow.h">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptRunner.h">
+      <Filter>JSDSP\Source\UI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClInclude>

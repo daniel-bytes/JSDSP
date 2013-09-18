@@ -5,7 +5,17 @@
               jucerVersion="3.1.0">
   <MAINGROUP id="dG6Ctj" name="JSDSP">
     <GROUP id="{AE0919F3-1468-FAE6-DCD5-3EE82818DC92}" name="Source">
-      <FILE id="ATW9F1" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <GROUP id="{1A3D3ED6-10E6-8DB9-5732-73D75E4DC7C5}" name="Audio"/>
+      <GROUP id="{01E0E713-CD82-DE7C-F66C-54B0F7A7751D}" name="UI">
+        <FILE id="VMtf9M" name="MainMenuBar.cpp" compile="1" resource="0" file="Source/MainMenuBar.cpp"/>
+        <FILE id="QJZZsm" name="MainMenuBar.h" compile="0" resource="0" file="Source/MainMenuBar.h"/>
+        <FILE id="PrijFE" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
+        <FILE id="j3iHUc" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+        <FILE id="mS9y5y" name="ScriptRunner.cpp" compile="1" resource="0"
+              file="Source/ScriptRunner.cpp"/>
+        <FILE id="uxQ7yC" name="ScriptRunner.h" compile="0" resource="0" file="Source/ScriptRunner.h"/>
+        <FILE id="ATW9F1" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <MODULES>

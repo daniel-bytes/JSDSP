@@ -9,6 +9,7 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MainWindow.h"
 
 
 //==============================================================================
@@ -25,12 +26,13 @@ public:
     //==============================================================================
     void initialise (const String& commandLine)
     {
-        // Add your application's initialisation code here..
+		window = new MainWindow();
+        window->setVisible (true);
     }
 
     void shutdown()
     {
-        // Add your application's shutdown code here..
+		window = nullptr;
     }
 
     //==============================================================================
@@ -47,6 +49,8 @@ public:
         // this method is invoked, and the commandLine parameter tells you what
         // the other instance's command-line arguments were.
     }
+private:
+	ScopedPointer<MainWindow> window;
 };
 
 //==============================================================================
