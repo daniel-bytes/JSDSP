@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <interface>
-  <window id="mainwindow" width="800" height="600">
+  <window id="mainwindow" text="JS DSP Window" width="800" height="600">
     <slider id="frequencyButton"
             text="Frequency"
             parameter="frequency"

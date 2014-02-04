@@ -3,6 +3,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-juce::DocumentWindow* ParseUIXml(juce::String file);
+juce::ScopedPointer<juce::DocumentWindow> ParseUIXml(juce::String filePath);
 
 #endif //__UIXMLPARSER_H__

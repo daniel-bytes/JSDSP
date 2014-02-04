@@ -31,7 +31,7 @@ function audioCallback(inputs, outputs, numSamples, sampleRate, parameters) {
         var value = Sawtooth.increment(sampleRate, parameters.frequency);
 
         for (var channel = 0; channel < outputs.length; channel++) {
-            outputs[channel][i] = value;
+            outputs[channel][i] = 0;//value;
         }
     }
 }

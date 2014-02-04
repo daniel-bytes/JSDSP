@@ -1,9 +1,8 @@
 #include "AppWindow.h"
 
-
 //==============================================================================
-AppWindow::AppWindow ()
-    : DocumentWindow ("JSDSP",
+AppWindow::AppWindow (AppWindowCreateParams params)
+    : DocumentWindow (params.id,
       Colours::azure,
       DocumentWindow::allButtons,
       true)
@@ -11,6 +10,10 @@ AppWindow::AppWindow ()
     setResizable (true, true); // resizability is a property of ResizableWindow
 
 	setUsingNativeTitleBar(true);
+
+    
+    centreWithSize (params.width, params.height);
+    setVisible (true);
 }
 
 AppWindow::~AppWindow()

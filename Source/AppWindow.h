@@ -5,12 +5,20 @@
 using namespace juce;
 
 
+struct AppWindowCreateParams
+{
+    juce::String id;
+    juce::String text;
+    int width;
+    int height;
+};
+
 class AppWindow  
 	: public DocumentWindow
 {
 public:
     //==============================================================================
-    AppWindow();
+    AppWindow(AppWindowCreateParams params);
     ~AppWindow();
 
     //==============================================================================
