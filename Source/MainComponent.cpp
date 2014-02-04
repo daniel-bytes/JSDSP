@@ -1,18 +1,11 @@
 #include "MainComponent.h"
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
-
+#include "JSFile.h"
 
 MainComponent::MainComponent(void)
 {
-    juce::File file("C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source\\TestAudioCallback.js");
-    juce::StringArray lines;
-    juce::String script;
-
-    file.readLines(lines);
-    for (auto str : lines) {
-        script << str << "\r\n";
-    }
+    auto script = parseFolder("C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source");
 
     dspCallback = new DspCallback(script);
     audioSetupButton = new TextButton("Audio Setup", "Audio Setup");

@@ -17,6 +17,8 @@ public:
   virtual void Free(void* data, size_t length) { free(data); }
 } mallocArrayBufferAllocator;
 
+
+
 ScriptProcessor::ScriptProcessor(void)
     : //locker(isolate.value), 
       handleScope(isolate.value), 

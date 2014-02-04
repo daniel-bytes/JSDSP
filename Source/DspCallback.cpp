@@ -2,7 +2,8 @@
 #include "ScriptProcessor.h"
 
 DspCallback::DspCallback(juce::String &script)
-    : script(script)
+    : script(script),
+      currentSampleRate(0)
 {
 }
 
@@ -12,6 +13,8 @@ DspCallback::~DspCallback(void)
 
 void DspCallback::audioDeviceAboutToStart(juce::AudioIODevice* device)
 {
+    currentSampleRate = device->getCurrentSampleRate();
+
     if (scriptProcessor == nullptr) {
         scriptProcessor = new ScriptProcessor();
         scriptProcessor->Execute(script);
@@ -38,31 +41,39 @@ void DspCallback::audioDeviceIOCallback (
     auto function = scriptProcessor->GetFunction(functionName);
 	auto outputs = v8::Array::New(numOutputChannels);
 	auto inputs = v8::Array::New(numInputChannels);
-	auto samples = v8::Int32::New(numSamples);
+    auto samples = v8::Int32::New(numSamples);
+    auto sampleRate = v8::Number::New(currentSampleRate);
 
+    // setup input data
+	for (int channel = 0; channel < numInputChannels; channel++) {
+		auto inputBuffer = *(inputChannelData + channel);
+		auto buffer = v8::ArrayBuffer::New(numSamples);
+
+        for (int i = 0; i < numSamples; i++) {
+            buffer->Set(i, v8::Number::New(inputBuffer[i]));
+        }
+
+		inputs->Set(channel, buffer);
+	}
+
+    // setup output data
 	for (int channel = 0; channel < numOutputChannels; channel++) {
 		auto outputBuffer = *(outputChannelData + channel);
 		auto buffer = v8::ArrayBuffer::New(numSamples);
-		//auto floatArray = v8::Float32Array::New(buffer, 0, numSamples);
-		outputs->Set(channel, buffer);
-	}
-
-	for (int channel = 0; channel < numInputChannels; channel++) {
-		auto *inputBuffer = const_cast<float*>(*(inputChannelData + channel));
-		auto buffer = v8::ArrayBuffer::New(numSamples);
-		//auto floatArray = v8::Float32Array::New(buffer, 0, numSamples);
 
 		outputs->Set(channel, buffer);
 	}
 
-	v8::Handle<v8::Value> values[] = { inputs, outputs, samples };
-    function->Call(scriptProcessor->GetGlobalObject(), 3, values);
+    // call JS function and copy results to JUCE output buffer
+	v8::Handle<v8::Value> values[] = { inputs, outputs, samples, sampleRate };
+    function->Call(scriptProcessor->GetGlobalObject(), 4, values);
 
 	for (int channel = 0; channel < numOutputChannels; channel++) {
         auto buffer = v8::Handle<v8::ArrayBuffer>::Cast(outputs->Get(channel));
 
         for (int i = 0; i < numSamples; i++) {
-            outputChannelData[channel][i] = (float)buffer->Get(i)->NumberValue();
+            float value = (float)buffer->Get(i)->NumberValue();
+            outputChannelData[channel][i] = value;
         }
     }
 

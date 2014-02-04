@@ -25,6 +25,7 @@ public:
 	virtual void audioDeviceStopped();
 
 private:
+    double currentSampleRate;
     juce::String script;
     juce::ScopedPointer<ScriptProcessor> scriptProcessor;
 };
