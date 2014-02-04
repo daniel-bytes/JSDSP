@@ -1,8 +1,9 @@
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
+#include "Parameters.h"
 
-DspCallback::DspCallback(juce::String &script)
-    : script(script),
+DspCallback::DspCallback(Parameters *parameters)
+    : parameters(parameters), 
       currentSampleRate(0)
 {
 }
@@ -11,12 +12,22 @@ DspCallback::~DspCallback(void)
 {
 }
 
+void DspCallback::SetAudioScript(juce::String script)
+{
+    this->script = script;
+    this->scriptProcessor = nullptr;
+}
+
 void DspCallback::audioDeviceAboutToStart(juce::AudioIODevice* device)
 {
     currentSampleRate = device->getCurrentSampleRate();
 
     if (scriptProcessor == nullptr) {
         scriptProcessor = new ScriptProcessor();
+
+        // TODO:
+        // scriptProcessor->Register(someDspType);
+
         scriptProcessor->Execute(script);
     }
 }
@@ -43,6 +54,24 @@ void DspCallback::audioDeviceIOCallback (
 	auto inputs = v8::Array::New(numInputChannels);
     auto samples = v8::Int32::New(numSamples);
     auto sampleRate = v8::Number::New(currentSampleRate);
+    auto parametersObject = v8::Object::New();
+
+    parameters->ForEachParameter([&] (juce::String key, juce::var value) {
+        auto parameterName = v8::String::NewFromUtf8(isolate, key.toUTF8());
+
+        if (value.isBool()) {
+            parametersObject->Set(parameterName, v8::Boolean::New((bool)value));
+        }
+        else if (value.isDouble()) {
+            parametersObject->Set(parameterName, v8::Number::New((double)value));
+        }
+        else if (value.isInt()) {
+            parametersObject->Set(parameterName, v8::Int32::New((int)value));
+        }
+        else if (value.isString()) {
+            parametersObject->Set(parameterName, v8::String::NewFromUtf8(isolate, ((juce::String)value).toUTF8()));
+        }
+    });
 
     // setup input data
 	for (int channel = 0; channel < numInputChannels; channel++) {
@@ -65,8 +94,8 @@ void DspCallback::audioDeviceIOCallback (
 	}
 
     // call JS function and copy results to JUCE output buffer
-	v8::Handle<v8::Value> values[] = { inputs, outputs, samples, sampleRate };
-    function->Call(scriptProcessor->GetGlobalObject(), 4, values);
+	v8::Handle<v8::Value> values[] = { inputs, outputs, samples, sampleRate, parametersObject };
+    function->Call(scriptProcessor->GetGlobalObject(), 5, values);
 
 	for (int channel = 0; channel < numOutputChannels; channel++) {
         auto buffer = v8::Handle<v8::ArrayBuffer>::Cast(outputs->Get(channel));

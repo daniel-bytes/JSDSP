@@ -40,9 +40,12 @@ v8::Isolate* ScriptProcessor::EnterIsolate(void)
     return isolate.value;
 }
 
-juce::String ScriptProcessor::Execute(juce::String &script)
+void ScriptProcessor::Execute(juce::String &script)
 {
-    
+    for (auto registeredObject : registeredObjects) {
+        registeredObject->Register(global);
+    }
+
     // Create a string containing the JavaScript source code.
     v8::Handle<v8::String> source = v8::String::NewFromUtf8(isolate.value, script.toUTF8());
   
@@ -55,8 +58,6 @@ juce::String ScriptProcessor::Execute(juce::String &script)
     // Convert the result to an UTF8 string and print it.
     v8::String::Utf8Value utf8(result);
     printf("%s\n", *utf8);
-
-    return juce::String(*utf8);
 }
 
 v8::Handle<v8::Object> ScriptProcessor::GetGlobalObject(void)

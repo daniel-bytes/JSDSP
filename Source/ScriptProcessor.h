@@ -16,7 +16,8 @@ public:
 
 public:
 	void Register(ScriptObject *scriptObject);
-	juce::String Execute(juce::String &script);
+	void Execute(juce::String &script);
+
     v8::Isolate* EnterIsolate(void);
     v8::Handle<v8::Object> GetGlobalObject(void);
     v8::Handle<v8::Function> GetFunction(juce::String &name);

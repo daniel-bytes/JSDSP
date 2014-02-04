@@ -1,7 +1,8 @@
 var Sawtooth = {
-    increment: function(sampleRate) {
-        if (sampleRate !== this._sampleRate) {
+    increment: function(sampleRate, freq) {
+        if (sampleRate !== this._sampleRate || freq !== this._frequency) {
             this._sampleRate = sampleRate;
+            this._frequency = freq;
             this._increment = (2.0 / this._sampleRate) * this._frequency;
         }
 
@@ -11,7 +12,7 @@ var Sawtooth = {
             this._value -= 2.0;
         }
 
-        return this._value;
+        return this._value > .5 ? 1.0 : -1.0;
     },
 
     _frequency: parseFloat(200.0),
@@ -24,9 +25,10 @@ function audioInit(sampleRate) {
 
 }
 
-function audioCallback(inputs, outputs, numSamples, sampleRate) {
+function audioCallback(inputs, outputs, numSamples, sampleRate, parameters) {
+    
     for (var i = 0; i < numSamples; i++) {
-        var value = Sawtooth.increment(sampleRate);
+        var value = Sawtooth.increment(sampleRate, parameters.frequency);
 
         for (var channel = 0; channel < outputs.length; channel++) {
             outputs[channel][i] = value;

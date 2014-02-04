@@ -2771,6 +2771,9 @@
     <ClInclude Include="..\..\Source\JSFile.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Parameters.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info">
@@ -2820,5 +2823,10 @@
     <ResourceCompile Include=".\resources.rc">
       <Filter>Libs\Juce Library Code</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Source\testui.xml">
+      <Filter>Source\Scripts</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

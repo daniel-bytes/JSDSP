@@ -5,6 +5,7 @@
 using namespace juce;
 
 class DspCallback;
+class Parameters;
 
 class MainComponent  
 	: public Component,
@@ -19,8 +20,7 @@ public:
     virtual void comboBoxChanged(ComboBox *comboBoxThatHasChanged);
 
 private:
-    ScopedPointer<TextButton> audioSetupButton;
-    ScopedPointer<TextButton> executeButton;
+    ScopedPointer<Parameters> parameters;
 	ScopedPointer<AudioDeviceManager> audioDeviceManager;
     ScopedPointer<AudioDeviceSelectorComponent> audioDeviceSelector;
     ScopedPointer<DspCallback> dspCallback;
