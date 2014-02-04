@@ -35,7 +35,8 @@
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
   <EXPORTFORMATS>
-    <VS2012 targetFolder="Builds/VisualStudio2012" juceFolder="JuceLibraryCode\modules">
+    <VS2012 targetFolder="Builds/VisualStudio2012" juceFolder="JuceLibraryCode\modules"
+            externalLibraries="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="JSDSP"/>

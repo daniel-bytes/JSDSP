@@ -8,10 +8,9 @@
   ==============================================================================
 */
 
+#include "../V8/v8.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainWindow.h"
-
-
 //==============================================================================
 class JSDSPApplication  : public JUCEApplication
 {
@@ -27,6 +26,7 @@ public:
     void initialise (const String& commandLine)
     {
 		window = new MainWindow();
+        window->centreWithSize (1200, 800);
         window->setVisible (true);
     }
 

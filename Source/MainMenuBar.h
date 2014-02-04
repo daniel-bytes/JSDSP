@@ -12,6 +12,7 @@
 #define MAINMENUBAR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+using namespace juce;
 
 //==============================================================================
 /*
