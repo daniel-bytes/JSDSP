@@ -6,6 +6,8 @@
 
 class Parameters
 {
+    typedef juce::HashMap<juce::String, juce::var, juce::DefaultHashFunctions, juce::CriticalSection> HashMapType;
+
 public:
     void SetParameter(juce::String name, juce::var value) {
         parameters.set(name, value);
@@ -16,13 +18,15 @@ public:
     }
 
     void ForEachParameter(std::function<void(juce::String, juce::var)> callback) {
-        for (juce::HashMap<juce::String, juce::var>::Iterator it(parameters); it.next();) {
+        juce::ScopedLock lock(parameters.getLock());
+
+        for (HashMapType::Iterator it(parameters); it.next();) {
             callback(it.getKey(), it.getValue());
         }
     }
 
 private:
-    juce::HashMap<juce::String, juce::var> parameters;
+    HashMapType parameters;
 };
 
 #endif //__PARAMETERS_H__

@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_utils\juce_audio_utils.cpp" />
+    <ClCompile Include="..\..\Source\AppWindow.cpp" />
     <ClCompile Include="..\..\Source\DspCallback.cpp" />
     <ClCompile Include="..\..\Source\JSFile.cpp" />
     <ClCompile Include="..\..\Source\MainComponent.cpp" />
@@ -1204,6 +1205,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
     <ClCompile Include="..\..\Source\ScriptProcessor.cpp" />
+    <ClCompile Include="..\..\Source\UIXmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_utils\gui\juce_AudioDeviceSelectorComponent.h" />
@@ -1219,6 +1221,7 @@
     <ClInclude Include="..\..\Libs\v8.h" />
     <ClInclude Include="..\..\Libs\v8config.h" />
     <ClInclude Include="..\..\Libs\v8stdint.h" />
+    <ClInclude Include="..\..\Source\AppWindow.h" />
     <ClInclude Include="..\..\Source\DspCallback.h" />
     <ClInclude Include="..\..\Source\JSFile.h" />
     <ClInclude Include="..\..\Source\MainComponent.h" />
@@ -1655,6 +1658,7 @@
     <ClInclude Include="..\..\Source\Parameters.h" />
     <ClInclude Include="..\..\Source\ScriptObject.h" />
     <ClInclude Include="..\..\Source\ScriptProcessor.h" />
+    <ClInclude Include="..\..\Source\UIXmlParser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info" />
@@ -1678,7 +1682,7 @@
     <ResourceCompile Include=".\resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\Source\testui.xml" />
+    <Xml Include="..\..\Source\ui.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

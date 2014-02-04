@@ -1425,6 +1425,12 @@
     <ClCompile Include="..\..\Source\JSFile.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UIXmlParser.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AppWindow.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainMenuBar.h">
@@ -2774,6 +2780,12 @@
     <ClInclude Include="..\..\Source\Parameters.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\UIXmlParser.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AppWindow.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_audio_basics\juce_module_info">
@@ -2825,7 +2837,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\Source\testui.xml">
+    <Xml Include="..\..\Source\ui.xml">
       <Filter>Source\Scripts</Filter>
     </Xml>
   </ItemGroup>

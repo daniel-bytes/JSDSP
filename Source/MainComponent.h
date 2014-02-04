@@ -20,6 +20,7 @@ public:
     virtual void comboBoxChanged(ComboBox *comboBoxThatHasChanged);
 
 private:
+    ScopedPointer<DocumentWindow> appWindow;
     ScopedPointer<Parameters> parameters;
 	ScopedPointer<AudioDeviceManager> audioDeviceManager;
     ScopedPointer<AudioDeviceSelectorComponent> audioDeviceSelector;

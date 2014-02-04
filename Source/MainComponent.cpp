@@ -3,6 +3,7 @@
 #include "ScriptProcessor.h"
 #include "JSFile.h"
 #include "Parameters.h"
+#include "UIXmlParser.h"
 
 MainComponent::MainComponent(void)
 {
@@ -22,12 +23,15 @@ MainComponent::MainComponent(void)
     audioDeviceSelector->setBounds(5, 5, 600, 400);
 
     audioDeviceManager->addAudioCallback(dspCallback);
+
+    appWindow = ParseUIXml("C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source\\ui.xml");
 }
 
 MainComponent::~MainComponent(void)
 {
     //audioDeviceManager->removeAudioCallback(dspCallback);
 
+    appWindow = nullptr;
 	audioDeviceSelector = nullptr;
 	audioDeviceManager = nullptr;
     dspCallback = nullptr;
