@@ -3,17 +3,20 @@
 #include "ScriptProcessor.h"
 #include "JSFile.h"
 #include "Parameters.h"
-#include "UIXmlParser.h"
+#include "XmlParser.h"
 
 MainComponent::MainComponent(void)
 {
     parameters = new Parameters();
     parameters->SetParameter("frequency", 100.0);
-
-    auto script = parseFolder("C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source");
+    
+    ApplicationSettings settings;
+    
+    ParseXml(settings, "C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source\\app.jsdsp");
+    appWindow = settings.window;
 
     dspCallback = new DspCallback(parameters);
-    dspCallback->SetAudioScript(script);
+    dspCallback->SetAudioScript(settings.dspScript);
 
 	audioDeviceManager = new AudioDeviceManager();
 	audioDeviceManager->initialise(2, 2, nullptr, false);
@@ -24,7 +27,6 @@ MainComponent::MainComponent(void)
 
     audioDeviceManager->addAudioCallback(dspCallback);
 
-    appWindow = ParseUIXml("C:\\Users\\Daniel\\Documents\\GitHub\\JSDSP\\Source\\ui.xml");
 }
 
 MainComponent::~MainComponent(void)

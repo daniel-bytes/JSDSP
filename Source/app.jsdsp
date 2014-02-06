@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jsdsp>
+  <scripts>
+    <!-- Script types: "dsp" or "ui" -->
+    <!-- Script path types: "file" or "web" -->
+    <script type="dsp" pathtype="file" path="TestAudioCallback.js" />
+  </scripts>
+  <interface>
+    <window id="mainwindow" text="JS DSP Window" width="800" height="600">
+      <slider id="frequencyButton"
+              text="Frequency"
+              parameter="frequency"
+              top="5"
+              left="5"
+              width="20"
+              height="20" />
+    </window>
+  </interface>
+</jsdsp>

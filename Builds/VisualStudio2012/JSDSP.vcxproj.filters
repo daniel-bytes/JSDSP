@@ -1425,11 +1425,11 @@
     <ClCompile Include="..\..\Source\JSFile.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UIXmlParser.cpp">
-      <Filter>Source\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\AppWindow.cpp">
       <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\XmlParser.cpp">
+      <Filter>Source\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2780,11 +2780,11 @@
     <ClInclude Include="..\..\Source\Parameters.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\UIXmlParser.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\AppWindow.h">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\XmlParser.h">
+      <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2837,7 +2837,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\Source\ui.xml">
+    <Xml Include="..\..\Source\app.jsdsp">
       <Filter>Source\Scripts</Filter>
     </Xml>
   </ItemGroup>
