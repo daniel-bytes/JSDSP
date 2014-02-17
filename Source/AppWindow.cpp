@@ -1,4 +1,5 @@
 #include "AppWindow.h"
+#include "AppComponent.h"
 
 //==============================================================================
 AppWindow::AppWindow (AppWindowCreateParams params)
@@ -10,20 +11,31 @@ AppWindow::AppWindow (AppWindowCreateParams params)
     setResizable (true, true); // resizability is a property of ResizableWindow
 
 	setUsingNativeTitleBar(true);
-
     
     centreWithSize (params.width, params.height);
     setVisible (true);
+
+    mainComponent = new AppComponent("main");
+    mainComponent->setSize(params.width, params.height);
+    
+    setContentNonOwned(mainComponent, true);
+    mainComponent->setVisible(true);
 }
 
 AppWindow::~AppWindow()
 {
+    mainComponent = nullptr;
+}
+
+Component* AppWindow::getMainComponent(void)
+{
+    return mainComponent;
 }
 
 //==============================================================================
 void AppWindow::paint (Graphics& g)
 {
-    g.fillAll (Colours::white);
+    g.fillAll (Colours::black);
 }
 
 void AppWindow::resized()

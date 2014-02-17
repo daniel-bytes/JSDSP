@@ -31,7 +31,7 @@ MainWindow::MainWindow ()
 
 MainWindow::~MainWindow()
 {
-	mainComponent = nullptr;
+	//mainComponent = nullptr;
 }
 
 //==============================================================================

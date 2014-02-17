@@ -2,10 +2,15 @@
 #define __XMLPARSER_H__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ParameterControl.h"
+
+class AppWindow;
 
 struct ApplicationSettings
 {
-    juce::ScopedPointer<juce::DocumentWindow> window;
+    juce::ScopedPointer<AppWindow> window;
+    juce::Array<juce::Component*> allComponents;
+    juce::Array<ParameterControl*> allParameterControls;
     juce::String xmlfile;
     juce::String dspScript;
     juce::String uiScript;

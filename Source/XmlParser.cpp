@@ -1,13 +1,34 @@
 #include "XmlParser.h"
 #include "AppWindow.h"
+#include "ScriptableSlider.h"
 #include "JSFile.h"
 
 using namespace juce;
 
+int GetDoubleAttribute(XmlElement *element, const char *name, double defaultValue);
+int GetIntAttribute(XmlElement *element, const char *name, int defaultValue);
+juce::String GetStringAttribute(XmlElement *element, const char *name, const char *defaultValue);
+
 bool ParseScriptsSection(ApplicationSettings &settings, XmlElement *element);
 bool ParseInterfaceSection(ApplicationSettings &settings, XmlElement *element);
 bool ParseWindowSection(ApplicationSettings &settings, XmlElement *element);
+bool ParseSliderControl(ApplicationSettings &settings, XmlElement *element, Component *parentComponent, Slider::SliderStyle style);
 
+// Implementations
+int GetDoubleAttribute(XmlElement *element, const char *name, double defaultValue)
+{
+    return element->hasAttribute(name) ? element->getDoubleAttribute(name) : defaultValue;
+}
+
+int GetIntAttribute(XmlElement *element, const char *name, int defaultValue)
+{
+    return element->hasAttribute(name) ? element->getIntAttribute(name) : defaultValue;
+}
+
+juce::String GetStringAttribute(XmlElement *element, const char *name, const char *defaultValue)
+{
+    return element->hasAttribute(name) ? element->getStringAttribute(name) : defaultValue;
+}
 
 void LoadAppWindowCreateParams(AppWindowCreateParams &params, XmlElement *element);
 
@@ -68,9 +89,9 @@ bool ParseScriptsSection(ApplicationSettings &settings, XmlElement *element)
         auto scriptElement = element->getChildElement(i);
 
         if (scriptElement->getTagName() == "script") {
-            auto type = scriptElement->getStringAttribute("type");
-            auto pathtype = scriptElement->getStringAttribute("pathtype");
-            auto path = scriptElement->getStringAttribute("path");
+            auto type = GetStringAttribute(scriptElement, "type", "ui");
+            auto pathtype = GetStringAttribute(scriptElement, "type", "pathtype");
+            auto path = GetStringAttribute(scriptElement, "type", "path");
             String script;
 
             if (pathtype == "file") {
@@ -114,12 +135,46 @@ bool ParseInterfaceSection(ApplicationSettings &settings, XmlElement *element)
 bool ParseWindowSection(ApplicationSettings &settings, XmlElement *element)
 {
     AppWindowCreateParams windowParams;
-    windowParams.id = element->getStringAttribute("id", "window");
-    windowParams.text = element->getStringAttribute("text", "");
-    windowParams.width = element->getIntAttribute("width", 1000);
-    windowParams.height = element->getIntAttribute("height", 800);
+    windowParams.id = GetStringAttribute(element, "id", "window");
+    windowParams.text = GetStringAttribute(element, "text", "");
+    windowParams.width = GetIntAttribute(element, "width", 1000);
+    windowParams.height = GetIntAttribute(element, "height", 800);
 
-    settings.window = new AppWindow(windowParams);
+    auto window = new AppWindow(windowParams);
+
+    for (int i = 0; i < element->getNumChildElements(); i++) {
+        auto childElement = element->getChildElement(i);
+
+        if (childElement->getTagName() == "knob") {
+            ParseSliderControl(settings, childElement, window->getMainComponent(), Slider::SliderStyle::RotaryVerticalDrag);
+        }
+    }
+
+    settings.window = window;
+
+    return true;
+}
+
+bool ParseSliderControl(ApplicationSettings &settings, XmlElement *element, Component *parentComponent, Slider::SliderStyle style)
+{    
+    ScriptableSliderCreateParams params;
+    params.id = GetStringAttribute(element, "id", "");
+    params.text = GetStringAttribute(element, "text", "");
+    params.parametername = GetStringAttribute(element, "parameter", "");
+    params.min = GetDoubleAttribute(element, "min", 0.0);
+    params.max = GetDoubleAttribute(element, "max", 1.0);
+    params.defaultvalue = GetDoubleAttribute(element, "default", (params.max - params.min) / 2.0);
+    params.interval = GetDoubleAttribute(element, "interval", 0.0);
+    params.x = GetIntAttribute(element, "left", 0);
+    params.y = GetIntAttribute(element, "top", 0);
+    params.width = GetIntAttribute(element, "width", 0);
+    params.height = GetIntAttribute(element, "height", 0);
+    params.style = style;
+
+    auto slider = new ScriptableSlider(params);
+    parentComponent->addAndMakeVisible(slider);
+    settings.allComponents.add(slider);
+    settings.allParameterControls.add(slider);
 
     return true;
 }

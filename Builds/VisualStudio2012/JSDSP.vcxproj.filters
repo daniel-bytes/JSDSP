@@ -310,6 +310,9 @@
     <Filter Include="Source\Scripts">
       <UniqueIdentifier>{90fb4452-c2dd-4b4c-9b4c-fe51c57a8d62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Parser">
+      <UniqueIdentifier>{89de54aa-92be-4756-aaa8-b1a4c397cd31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\MainMenuBar.cpp">
@@ -1428,8 +1431,14 @@
     <ClCompile Include="..\..\Source\AppWindow.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptableSlider.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\XmlParser.cpp">
-      <Filter>Source\Engine</Filter>
+      <Filter>Source\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AppComponent.cpp">
+      <Filter>Source\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2777,13 +2786,19 @@
     <ClInclude Include="..\..\Source\JSFile.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Parameters.h">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\AppWindow.h">
       <Filter>Source\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptableSlider.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\XmlParser.h">
+      <Filter>Source\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AppComponent.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ParameterControl.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,12 +6,13 @@
 
 class Parameters;
 class ScriptProcessor;
+class ParameterControl;
 
 class DspCallback
 	: public juce::AudioIODeviceCallback
 {
 public:
-	DspCallback(Parameters *parameters);
+	DspCallback(juce::Array<ParameterControl*> parameters);
 	virtual ~DspCallback(void);
 
 public:
@@ -28,7 +29,7 @@ public:
 	virtual void audioDeviceStopped();
 
 private:
-    Parameters *parameters;
+    juce::Array<ParameterControl*> parameters;
     double currentSampleRate;
     juce::String script;
     juce::ScopedPointer<ScriptProcessor> scriptProcessor;

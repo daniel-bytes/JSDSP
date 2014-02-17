@@ -1,11 +1,12 @@
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
 #include "Parameters.h"
+#include "ParameterControl.h"
 
-DspCallback::DspCallback(Parameters *parameters)
-    : parameters(parameters), 
-      currentSampleRate(0)
+DspCallback::DspCallback(juce::Array<ParameterControl*> parameters)
+      : currentSampleRate(0)
 {
+    this->parameters.addArray(parameters);
 }
 
 DspCallback::~DspCallback(void)
@@ -56,22 +57,31 @@ void DspCallback::audioDeviceIOCallback (
     auto sampleRate = v8::Number::New(currentSampleRate);
     auto parametersObject = v8::Object::New();
 
-    parameters->ForEachParameter([&] (juce::String key, juce::var value) {
-        auto parameterName = v8::String::NewFromUtf8(isolate, key.toUTF8());
+    for (auto parameterControl : parameters) {
+        int count = parameterControl->getParameterCount();
 
-        if (value.isBool()) {
-            parametersObject->Set(parameterName, v8::Boolean::New((bool)value));
+        for (int i = 0; i < count; i++) {
+            juce::String name;
+            juce::var value;
+
+            if (parameterControl->getParameter(i, name, value)) {
+                auto parameterName = v8::String::NewFromUtf8(isolate, name.toUTF8());
+
+                if (value.isBool()) {
+                    parametersObject->Set(parameterName, v8::Boolean::New((bool)value));
+                }
+                else if (value.isDouble()) {
+                    parametersObject->Set(parameterName, v8::Number::New((double)value));
+                }
+                else if (value.isInt()) {
+                    parametersObject->Set(parameterName, v8::Int32::New((int)value));
+                }
+                else if (value.isString()) {
+                    parametersObject->Set(parameterName, v8::String::NewFromUtf8(isolate, ((juce::String)value).toUTF8()));
+                }
+            }
         }
-        else if (value.isDouble()) {
-            parametersObject->Set(parameterName, v8::Number::New((double)value));
-        }
-        else if (value.isInt()) {
-            parametersObject->Set(parameterName, v8::Int32::New((int)value));
-        }
-        else if (value.isString()) {
-            parametersObject->Set(parameterName, v8::String::NewFromUtf8(isolate, ((juce::String)value).toUTF8()));
-        }
-    });
+    }
 
     // setup input data
 	for (int channel = 0; channel < numInputChannels; channel++) {

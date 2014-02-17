@@ -5,7 +5,8 @@
 using namespace juce;
 
 class DspCallback;
-class Parameters;
+class AppWindow;
+class ParameterControl;
 
 class MainComponent  
 	: public Component,
@@ -20,11 +21,16 @@ public:
     virtual void comboBoxChanged(ComboBox *comboBoxThatHasChanged);
 
 private:
-    ScopedPointer<DocumentWindow> appWindow;
-    ScopedPointer<Parameters> parameters;
+    ScopedPointer<Label> projectFileLabel;
+    ScopedPointer<Button> projectFileSelectButton;
+
+    ScopedPointer<AppWindow> appWindow;
 	ScopedPointer<AudioDeviceManager> audioDeviceManager;
     ScopedPointer<AudioDeviceSelectorComponent> audioDeviceSelector;
     ScopedPointer<DspCallback> dspCallback;
+
+    OwnedArray<Component> allComponents;
+    Array<ParameterControl*> allParameterControls;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
