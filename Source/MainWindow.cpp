@@ -9,15 +9,15 @@ MainWindow::MainWindow ()
       true)
 {
     setResizable (true, true); // resizability is a property of ResizableWindow
-    setResizeLimits (600, 400, 600, 400);
+    setResizeLimits (600, 450, 600, 450);
 
-    setSize (600, 400);
+    setSize (600, 450);
 
 	setUsingNativeTitleBar(true);
 	mainComponent = new MainComponent();
 	setContentNonOwned(mainComponent, false);
 	mainComponent->setVisible(true);
-	mainComponent->setSize(this->getWidth(), this->getHeight());
+    mainComponent->setSize(this->getWidth(), this->getHeight());
 
 #if HIDE
 	MainMenuBar *menuBar = new MainMenuBar();

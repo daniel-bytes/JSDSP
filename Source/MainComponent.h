@@ -21,6 +21,9 @@ public:
     virtual void comboBoxChanged(ComboBox *comboBoxThatHasChanged);
 
 private:
+    void init(const String &filePath);
+
+private:
     ScopedPointer<Label> projectFileLabel;
     ScopedPointer<Button> projectFileSelectButton;
 
