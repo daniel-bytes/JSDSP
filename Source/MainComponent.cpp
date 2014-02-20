@@ -2,7 +2,6 @@
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
 #include "JSFile.h"
-#include "Parameters.h"
 #include "XmlParser.h"
 #include "AppWindow.h"
 
@@ -33,7 +32,7 @@ MainComponent::MainComponent(void)
     addAndMakeVisible(audioDeviceSelector);
     audioDeviceSelector->setBounds(5, 25, 600, 400);
 
-    //audioDeviceManager->addAudioCallback(dspCallback);
+    audioDeviceManager->addAudioCallback(dspCallback);
     
     appWindow->toFront(true);
 }

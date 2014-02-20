@@ -136,6 +136,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_utils\juce_audio_utils.cpp" />
     <ClCompile Include="..\..\Source\AppComponent.cpp" />
     <ClCompile Include="..\..\Source\AppWindow.cpp" />
+    <ClCompile Include="..\..\Source\Debugging.cpp" />
     <ClCompile Include="..\..\Source\DspCallback.cpp" />
     <ClCompile Include="..\..\Source\JSFile.cpp" />
     <ClCompile Include="..\..\Source\MainComponent.cpp" />
@@ -1225,6 +1226,7 @@
     <ClInclude Include="..\..\Libs\v8stdint.h" />
     <ClInclude Include="..\..\Source\AppComponent.h" />
     <ClInclude Include="..\..\Source\AppWindow.h" />
+    <ClInclude Include="..\..\Source\Debugging.h" />
     <ClInclude Include="..\..\Source\DspCallback.h" />
     <ClInclude Include="..\..\Source\JSFile.h" />
     <ClInclude Include="..\..\Source\MainComponent.h" />

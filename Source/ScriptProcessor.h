@@ -14,13 +14,19 @@ public:
 	ScriptProcessor(void);
 	~ScriptProcessor(void);
 
+private:
+
 public:
 	void Register(ScriptObject *scriptObject);
 	void Execute(juce::String &script);
 
     v8::Isolate* EnterIsolate(void);
-    v8::Handle<v8::Object> GetGlobalObject(void);
-    v8::Handle<v8::Function> GetFunction(juce::String &name);
+    v8::Handle<v8::Context> GetContext(void);
+
+    juce::String handleError(const v8::TryCatch &tryCatch);
+
+    
+    v8::Handle<v8::Function> GetProcessFunction(void);
 
 private:
     // Wrapper around an Isolate so we can use proper RAII
@@ -46,11 +52,12 @@ private:
     } isolate;
 
 private:
-    //v8::Locker locker;
-    v8::HandleScope handleScope;
-    v8::Handle<v8::ObjectTemplate> global;
-    v8::Handle<v8::Context> context;
-    v8::Context::Scope contextScope;
+    v8::Handle<v8::Function> GetFunction(v8::Handle<v8::Context> context, juce::String &name);
+
+private:
+    v8::Persistent<v8::Context> context;
+    v8::Persistent<v8::Function> processFunction;
+    v8::Handle<v8::Script> compiledScript;
     juce::Array<ScriptObject*> registeredObjects;
 };
 

@@ -1440,6 +1440,9 @@
     <ClCompile Include="..\..\Source\AppComponent.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Debugging.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainMenuBar.h">
@@ -2799,6 +2802,9 @@
       <Filter>Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ParameterControl.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Debugging.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>

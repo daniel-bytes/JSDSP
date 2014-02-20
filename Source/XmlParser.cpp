@@ -90,8 +90,8 @@ bool ParseScriptsSection(ApplicationSettings &settings, XmlElement *element)
 
         if (scriptElement->getTagName() == "script") {
             auto type = GetStringAttribute(scriptElement, "type", "ui");
-            auto pathtype = GetStringAttribute(scriptElement, "type", "pathtype");
-            auto path = GetStringAttribute(scriptElement, "type", "path");
+            auto pathtype = GetStringAttribute(scriptElement, "pathtype", "");
+            auto path = GetStringAttribute(scriptElement, "path", "");
             String script;
 
             if (pathtype == "file") {

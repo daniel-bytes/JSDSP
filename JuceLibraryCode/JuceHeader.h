@@ -13,6 +13,8 @@
 #ifndef __APPHEADERFILE_URIO2O__
 #define __APPHEADERFILE_URIO2O__
 
+#define BEGIN_SCOPE() if (true)
+
 #include "AppConfig.h"
 #include "modules/juce_audio_utils/juce_audio_utils.h"
 #include "modules/juce_audio_basics/juce_audio_basics.h"
