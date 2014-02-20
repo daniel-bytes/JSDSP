@@ -2,8 +2,9 @@
 
 juce::String downloadFile(const juce::String &url)
 {
-    (void)url;
-    return "";
+    juce::URL webreq(url);
+    auto results = webreq.readEntireTextStream();
+    return results;
 }
 
 juce::String parseFolder(const juce::String &folder)

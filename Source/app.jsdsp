@@ -4,13 +4,14 @@
     <!-- Script types: "dsp" or "ui" -->
     <!-- Script path types: "file" or "web" -->
     <script type="dsp" pathtype="file" path="TestAudioCallback.js" />
+    <script type="dsp" pathtype="web" path="http://kid-sputnik.com/test/sawtooth.js" />
   </scripts>
   <interface>
     <window id="mainwindow" text="JS DSP Window" width="800" height="600">
       <knob id="frequencyButton"
             text="Frequency"
             parameter="frequency"
-            min="10"
+            min="50"
             max="1000"
             default="100"
             top="25"

@@ -1680,6 +1680,7 @@
     <None Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_module_info" />
     <None Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_module_info" />
     <None Include="..\..\JuceLibraryCode\modules\juce_video\juce_module_info" />
+    <None Include="..\..\Source\Sawtooth.js" />
     <None Include="..\..\Source\TestAudioCallback.js">
       <DeploymentContent>true</DeploymentContent>
     </None>

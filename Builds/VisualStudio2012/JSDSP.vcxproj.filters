@@ -1425,9 +1425,6 @@
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\JSFile.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\AppWindow.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
@@ -1442,6 +1439,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Debugging.cpp">
       <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\JSFile.cpp">
+      <Filter>Source\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2786,9 +2786,6 @@
     <ClInclude Include="..\..\Source\ScriptProcessor.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\JSFile.h">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\AppWindow.h">
       <Filter>Source\UI</Filter>
     </ClInclude>
@@ -2806,6 +2803,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Debugging.h">
       <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JSFile.h">
+      <Filter>Source\Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2849,6 +2849,9 @@
       <Filter>Libs\Juce Library Code\Juce Modules\juce_video</Filter>
     </None>
     <None Include="..\..\Source\TestAudioCallback.js">
+      <Filter>Source\Scripts</Filter>
+    </None>
+    <None Include="..\..\Source\Sawtooth.js">
       <Filter>Source\Scripts</Filter>
     </None>
   </ItemGroup>
