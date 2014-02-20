@@ -4,11 +4,14 @@
     <!-- Script types: "dsp" or "ui" -->
     <!-- Script path types: "file" or "web" -->
     <script type="dsp" pathtype="file" path="TestAudioCallback.js" />
+    <script type="dsp" pathtype="file" path="sawtooth.js" />
+    <!--
     <script type="dsp" pathtype="web" path="http://kid-sputnik.com/test/sawtooth.js" />
+    -->
   </scripts>
   <interface>
     <window id="mainwindow" text="JS DSP Window" width="800" height="600">
-      <knob id="frequencyButton"
+      <knob id="frequency"
             text="Frequency"
             parameter="frequency"
             min="50"
@@ -18,6 +21,28 @@
             left="10"
             width="100"
             height="100" />
+      <slider id="gain"
+              text="Gain"
+              parameter="gain"
+              direction="vertical"
+              min="0"
+              max="1"
+              default=".7"
+              top="25"
+              left="200"
+              width="30"
+              height="100" />
+      <slider id="lfo"
+              text="LFO"
+              parameter="lfo"
+              direction="horizontal"
+              min=".01"
+              max="10"
+              default="1"
+              top="25"
+              left="400"
+              width="100"
+              height="30" />
     </window>
   </interface>
 </jsdsp>

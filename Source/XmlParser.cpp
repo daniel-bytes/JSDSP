@@ -148,6 +148,11 @@ bool ParseWindowSection(ApplicationSettings &settings, XmlElement *element)
         if (childElement->getTagName() == "knob") {
             ParseSliderControl(settings, childElement, window->getMainComponent(), Slider::SliderStyle::RotaryVerticalDrag);
         }
+        else if (childElement->getTagName() == "slider") {
+            auto direction = GetStringAttribute(childElement, "direction", "vertical");
+            Slider::SliderStyle style = direction == "horizontal" ? Slider::SliderStyle::LinearHorizontal : Slider::SliderStyle::LinearBarVertical;
+            ParseSliderControl(settings, childElement, window->getMainComponent(), style);
+        }
     }
 
     settings.window = window;
