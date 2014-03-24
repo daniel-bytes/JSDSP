@@ -1443,6 +1443,12 @@
     <ClCompile Include="..\..\Source\JSFile.cpp">
       <Filter>Source\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\FileSystem.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptObject.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainMenuBar.h">
@@ -2806,6 +2812,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\JSFile.h">
       <Filter>Source\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FileSystem.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptObjects.h">
+      <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

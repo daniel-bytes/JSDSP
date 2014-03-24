@@ -2,6 +2,7 @@
 #include "ScriptObject.h"
 #include <sstream>
 #include <exception>
+#include <map>
 #include "Debugging.h"
 
 
@@ -20,7 +21,96 @@ public:
   virtual void Free(void* data, size_t length) { (void)length; free(data); }
 } mallocArrayBufferAllocator;
 
+// global collection used to store object references
+std::map<void*, v8::Persistent<v8::Object>> wrappedObjects;
 
+v8::Handle<v8::Object> WrapObject(v8::Isolate *isolate, v8::Handle<v8::FunctionTemplate> objectTemplate, void *objectToWrap)
+{
+    /*
+    v8::HandleScope scope(isolate);
+
+    if (wrappedObjects.count(objectToWrap) > 0) {
+        return scope.Close(wrappedObjects[objectToWrap]);
+    }
+
+    auto obj = objectTemplate->InstanceTemplate()->NewInstance();
+    v8::Persistent<v8::Object> persistentHandle(isolate, obj);
+
+    persistentHandle.MakeWeak(objectToWrap, WeakRefCallback);
+
+    wrappedObjects[objectToWrap] = persistentHandle;
+
+    obj->SetInternalField(0, v8::External::New(objectToWrap));
+
+    return scope.Close(persistentHandle);
+    */
+    throw "boo!";
+}
+/*
+template<typename T>
+T* UnwrapObject(v8::Isolate *isolate, v8::Handle<v8::FunctionTemplate> objectTemplate, void *objectToWrap)
+{
+    auto isolate = v8::Isolate::GetCurrent();
+    v8::HandleScope scope(isolate);
+
+    auto self = info.Holder();
+    auto unwrappedField = v8::Local<v8::External>::Cast(self->GetInternalField(0));
+    auto obj = static_cast<T*>(unwrappedField->Value());
+
+    return obj;
+}
+*/
+void ObjectConstructor(const v8::FunctionCallbackInfo<v8::Value>& info)
+{
+    auto isolate = info.GetIsolate();
+    v8::HandleScope scope(isolate);
+
+    auto external = info.Data().As<v8::External>();
+    auto externalValue = external->Value();
+    auto metadata = static_cast<ScriptObjectMetadata*>(externalValue);
+
+    auto instance = metadata->ConstructObject(info);
+    delete instance;
+    // TODO : Store instance
+
+    /*
+    WrapObject(isolate, info.This()->get
+
+
+    auto self = info.Holder();
+    auto unwrappedField = v8::Local<v8::External>::Cast(self->GetInternalField(0));
+    auto scriptObject = static_cast<ScriptObjectMetadata*>(unwrappedField->Value());
+
+    auto instance = scriptObject->ConstructObject(info);
+    //auto wrappedField = WrapObject(isolate, 
+    //info.GetReturnValue().Set(
+    */
+}
+
+v8::Handle<v8::Value> ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::Handle<v8::Object> global)
+{
+    v8::HandleScope scope(isolate);
+    
+    auto metadataExternal = v8::External::New(metadata);
+    auto ctorTemplate = v8::FunctionTemplate::New();
+
+    ctorTemplate->InstanceTemplate()->SetInternalFieldCount(1);
+
+    ctorTemplate->SetCallHandler(ObjectConstructor, metadataExternal);
+
+    global->Set(v8::String::New(metadata->GetConstructorName()), ctorTemplate->GetFunction());
+
+    return scope.Close(metadataExternal);
+}
+
+void WeakRefCallback(v8::Persistent<v8::Value> object, void *parameter)
+{
+    wrappedObjects.erase(parameter);
+    delete parameter;
+
+    object.Dispose();
+    object.Clear();
+}
 
 ScriptProcessor::ScriptProcessor(void)
 {
@@ -50,12 +140,11 @@ v8::Handle<v8::Context> ScriptProcessor::GetContext(void)
     return v8::Local<v8::Context>::New(isolate.value, context);
 }
 
-void ScriptProcessor::Execute(juce::String &script)
+void ScriptProcessor::Execute(juce::String &script, juce::Array<ScriptObjectMetadata*> metadataObjects)
 {
     v8::HandleScope handle_scope(isolate.value);
-    auto global = v8::ObjectTemplate::New();
 
-    auto tempContext = v8::Context::New(isolate.value, nullptr, global);
+    auto tempContext = v8::Context::New(isolate.value, nullptr, v8::ObjectTemplate::New());
 
     context.Reset(isolate.value, tempContext);
 
@@ -63,8 +152,11 @@ void ScriptProcessor::Execute(juce::String &script)
 
     auto _isolate = EnterIsolate();
 
-    for (auto registeredObject : registeredObjects) {
-        registeredObject->Register(global);
+    for (auto metadataObject : metadataObjects) {
+        auto obj = ConfigureObject(_isolate, metadataObject, tempContext->Global());
+        //registeredMetadata[metadataObject] = v8::Persistent<v8::Object>();
+        v8::Persistent<v8::Value> valueRef(_isolate, obj);
+        registeredMetadata[metadataObject] = obj;
     }
 
     // Create a string containing the JavaScript source code.
@@ -110,11 +202,6 @@ v8::Handle<v8::Function> ScriptProcessor::GetFunction(v8::Handle<v8::Context> co
 
 	auto function = v8::Handle<v8::Function>::Cast(functionObj);
     return function;
-}
-
-void ScriptProcessor::Register(ScriptObject *scriptObject)
-{
-    registeredObjects.add(scriptObject);
 }
 
 juce::String ScriptProcessor::handleError(const v8::TryCatch &tryCatch)

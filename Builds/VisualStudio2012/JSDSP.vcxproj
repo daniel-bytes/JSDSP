@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\Source\AppWindow.cpp" />
     <ClCompile Include="..\..\Source\Debugging.cpp" />
     <ClCompile Include="..\..\Source\DspCallback.cpp" />
+    <ClCompile Include="..\..\Source\FileSystem.cpp" />
     <ClCompile Include="..\..\Source\JSFile.cpp" />
     <ClCompile Include="..\..\Source\MainComponent.cpp" />
     <ClCompile Include="..\..\Source\MainMenuBar.cpp" />
@@ -1207,6 +1208,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
     <ClCompile Include="..\..\Source\ScriptableSlider.cpp" />
+    <ClCompile Include="..\..\Source\ScriptObject.cpp" />
     <ClCompile Include="..\..\Source\ScriptProcessor.cpp" />
     <ClCompile Include="..\..\Source\XmlParser.cpp" />
   </ItemGroup>
@@ -1228,6 +1230,7 @@
     <ClInclude Include="..\..\Source\AppWindow.h" />
     <ClInclude Include="..\..\Source\Debugging.h" />
     <ClInclude Include="..\..\Source\DspCallback.h" />
+    <ClInclude Include="..\..\Source\FileSystem.h" />
     <ClInclude Include="..\..\Source\JSFile.h" />
     <ClInclude Include="..\..\Source\MainComponent.h" />
     <ClInclude Include="..\..\Source\MainMenuBar.h" />
@@ -1663,6 +1666,7 @@
     <ClInclude Include="..\..\Source\ParameterControl.h" />
     <ClInclude Include="..\..\Source\ScriptableSlider.h" />
     <ClInclude Include="..\..\Source\ScriptObject.h" />
+    <ClInclude Include="..\..\Source\ScriptObjects.h" />
     <ClInclude Include="..\..\Source\ScriptProcessor.h" />
     <ClInclude Include="..\..\Source\XmlParser.h" />
   </ItemGroup>

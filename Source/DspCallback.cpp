@@ -28,7 +28,8 @@ void DspCallback::audioDeviceAboutToStart(juce::AudioIODevice* device)
         // TODO:
         // scriptProcessor->Register(someDspType);
 
-        scriptProcessor->Execute(script);
+        juce::Array<ScriptObjectMetadata*> metadata;
+        scriptProcessor->Execute(script, metadata);
     }
 }
 

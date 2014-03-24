@@ -4,6 +4,8 @@
 #include "JSFile.h"
 #include "XmlParser.h"
 #include "AppWindow.h"
+#include "ScriptProcessor.h"
+#include "FileSystem.h"
 
 MainComponent::MainComponent(void)
 {
@@ -24,7 +26,12 @@ MainComponent::MainComponent(void)
     addAndMakeVisible(audioDeviceSelector);
     audioDeviceSelector->setBounds(5, 65, 600, 600);
 
-    
+    uiScriptProcessor = new ScriptProcessor();
+    uiScriptMetadata.add(new FileSystem::Metadata());
+    juce::String uiScript = "new FileSystem(); ";
+
+    juce::Array<ScriptObjectMetadata*> metadata(uiScriptMetadata.begin(), uiScriptMetadata.size());
+    uiScriptProcessor->Execute(uiScript, metadata);
     //appWindow->toFront(true);
 }
 
@@ -36,6 +43,7 @@ MainComponent::~MainComponent(void)
 	audioDeviceSelector = nullptr;
 	audioDeviceManager = nullptr;
     dspCallback = nullptr;
+    uiScriptProcessor = nullptr;
 }
 
 void MainComponent::init(const String &filePath)
