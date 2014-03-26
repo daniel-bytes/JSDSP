@@ -22,20 +22,20 @@ public:
 
 
 
-/*
-template<typename T>
-T* UnwrapObject(v8::Isolate *isolate, v8::Handle<v8::FunctionTemplate> objectTemplate, void *objectToWrap)
+void InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info)
 {
-    auto isolate = v8::Isolate::GetCurrent();
-    v8::HandleScope scope(isolate);
-
-    auto self = info.Holder();
-    auto unwrappedField = v8::Local<v8::External>::Cast(self->GetInternalField(0));
-    auto obj = static_cast<T*>(unwrappedField->Value());
-
-    return obj;
+    auto obj = ScriptObject::Unwrap(info.GetIsolate(), info.Holder());
+    obj->InvokeMethod(info);
 }
-*/
+
+void InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
+{
+}
+
+void InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
+{
+}
+
 void ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
 {
     auto isolate = info.GetIsolate();
@@ -57,10 +57,19 @@ void ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::H
     
     auto metadataExternal = metadata->Persist(isolate);
     auto ctorTemplate = v8::FunctionTemplate::New();
+    auto instanceTemplate = ctorTemplate->InstanceTemplate();
+    auto prototypeTemplate = ctorTemplate->PrototypeTemplate();
 
-    ctorTemplate->InstanceTemplate()->SetInternalFieldCount(1);
+    instanceTemplate->SetInternalFieldCount(1);
 
     ctorTemplate->SetCallHandler(ConstructObject, metadataExternal);
+
+    auto methods = metadata->GetMethodNames();
+
+    for (auto method : methods) {
+        auto function = v8::Function::New(isolate, InvokeMethod);
+        prototypeTemplate->Set(method.toUTF8(), function);
+    }
 
     global->Set(v8::String::New(metadata->GetConstructorName()), ctorTemplate->GetFunction());
 }

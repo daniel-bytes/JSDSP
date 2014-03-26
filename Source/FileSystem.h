@@ -21,6 +21,7 @@ public:
     {
     public:
         virtual const char* GetConstructorName(void) { return "FileSystem"; }
+        virtual juce::Array<juce::String> GetMethodNames(void);
         virtual ScriptObject* ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info);
     };
 

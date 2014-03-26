@@ -2,6 +2,7 @@
 #define __SCRIPTOBJECT_H__
 
 #include "../V8/v8.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 
 class ScriptObject
 {
@@ -12,6 +13,7 @@ public:
     
 public:
     v8::Handle<v8::External> Persist(v8::Isolate *isolate);
+    static ScriptObject* Unwrap(v8::Isolate *isolate, v8::Handle<v8::Object> holder);
 
 private:
     static void WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptObject>& data);
@@ -25,6 +27,7 @@ private:
 class ScriptObjectMetadata
 {
 public:
+    virtual juce::Array<juce::String> GetMethodNames(void) = 0;
     virtual const char* GetConstructorName(void) = 0;
     virtual ScriptObject* ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info) = 0;
 

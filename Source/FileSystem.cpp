@@ -13,6 +13,7 @@ void FileSystem::SetFilePath(const juce::String &value)
 
 void FileSystem::InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info)
 {
+    
 }
 
 void FileSystem::InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
@@ -26,4 +27,12 @@ void FileSystem::InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCall
 ScriptObject* FileSystem::Metadata::ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
 {
     return new FileSystem();
+}
+
+juce::Array<juce::String> FileSystem::Metadata::GetMethodNames(void)
+{
+    juce::Array<juce::String> methods;
+    methods.add("test");
+
+    return methods;
 }
