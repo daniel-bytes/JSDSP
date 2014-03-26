@@ -27,7 +27,9 @@ MainComponent::MainComponent(void)
     audioDeviceSelector->setBounds(5, 65, 600, 600);
 
     uiScriptProcessor = new ScriptProcessor();
-    uiScriptMetadata.add(new FileSystem::Metadata());
+
+    auto fsMetadata = new FileSystem::Metadata();
+    uiScriptMetadata.add(fsMetadata);
     juce::String uiScript = "new FileSystem(); ";
 
     juce::Array<ScriptObjectMetadata*> metadata(uiScriptMetadata.begin(), uiScriptMetadata.size());

@@ -3,7 +3,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../V8/v8.h"
-#include <map>
 
 class ScriptObjectMetadata;
 
@@ -58,7 +57,7 @@ private:
     v8::Persistent<v8::Context> context;
     v8::Persistent<v8::Function> processFunction;
     v8::Handle<v8::Script> compiledScript;
-    std::map<ScriptObjectMetadata*, v8::Handle<v8::Value>> registeredMetadata;
+    juce::Array<ScriptObjectMetadata*> registeredMetadata;
 };
 
 #endif //__SCRIPTPROCESSOR_H__
