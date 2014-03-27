@@ -56,7 +56,6 @@ void ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::H
     metadata->ConfigureMethods(isolate);
 
     instanceTemplate->SetInternalFieldCount(1);
-
     ctorTemplate->SetCallHandler(ConstructObject, metadataExternal);
 
     global->Set(v8::String::New(metadata->GetConstructorName()), ctorTemplate->GetFunction());

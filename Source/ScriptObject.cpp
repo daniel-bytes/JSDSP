@@ -24,6 +24,10 @@ v8::Handle<v8::External> ScriptObjectMetadata::Persist(v8::Isolate *isolate, v8:
 
 v8::Handle<v8::FunctionTemplate> ScriptObjectMetadata::GetFunctionTemplate(v8::Isolate *isolate)
 {
+    if (functionTemplate.IsEmpty()) {
+        throw std::runtime_error("Must call Persist before accessing function template.");
+    }
+
     v8::HandleScope scope(isolate);
     auto templateHandle = v8::Handle<v8::FunctionTemplate>::New(isolate, functionTemplate);
     
