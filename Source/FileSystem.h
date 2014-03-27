@@ -11,9 +11,9 @@ public:
     const juce::String& GetFilePath(void) const;
     void SetFilePath(const juce::String &value);
     
-    virtual void InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info);
-    virtual void InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info);
-    virtual void InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info);
+    void test(void) {
+
+    }
 
 public:
     class Metadata
@@ -21,8 +21,10 @@ public:
     {
     public:
         virtual const char* GetConstructorName(void) { return "FileSystem"; }
-        virtual juce::Array<juce::String> GetMethodNames(void);
-        virtual ScriptObject* ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info);
+
+        virtual void ConfigureMethods(v8::Isolate *isolate);
+
+        virtual ScriptObject* ConstructObject(v8::Isolate *isolate);
     };
 
 private:

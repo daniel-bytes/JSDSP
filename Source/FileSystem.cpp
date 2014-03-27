@@ -10,29 +10,15 @@ void FileSystem::SetFilePath(const juce::String &value)
     this->filePath = value;
 }
 
-
-void FileSystem::InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info)
+void FileSystem::Metadata::ConfigureMethods(v8::Isolate *isolate)
 {
-    
+    SetMethod(isolate, "test", [&] (const v8::FunctionCallbackInfo<v8::Value>& info) {
+        auto obj = ScriptObject::Unwrap<FileSystem>(info.GetIsolate(), info.Holder());
+        obj->test();
+    });
 }
 
-void FileSystem::InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
-{
-}
-
-void FileSystem::InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
-{
-}
-
-ScriptObject* FileSystem::Metadata::ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
+ScriptObject* FileSystem::Metadata::ConstructObject(v8::Isolate *isolate)
 {
     return new FileSystem();
-}
-
-juce::Array<juce::String> FileSystem::Metadata::GetMethodNames(void)
-{
-    juce::Array<juce::String> methods;
-    methods.add("test");
-
-    return methods;
 }

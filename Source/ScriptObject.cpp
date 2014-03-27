@@ -3,31 +3,40 @@
 
 void ScriptObjectMetadata::WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptObjectMetadata>& data)
 {
+    auto isolate = data.GetIsolate();
     auto value = data.GetParameter();
-    value->wrapper.Dispose(data.GetIsolate());
+
+    value->wrapper.Dispose(isolate);
+    value->functionTemplate.Dispose(isolate);
 }
 
-v8::Handle<v8::External> ScriptObjectMetadata::Persist(v8::Isolate *isolate)
+v8::Handle<v8::External> ScriptObjectMetadata::Persist(v8::Isolate *isolate, v8::Handle<v8::FunctionTemplate> functionTemplate)
 {
     v8::HandleScope scope(isolate);
     auto external = v8::External::New((void*)this);
-    wrapper.Reset(isolate, external);
-    wrapper.SetWeak(this, WeakRefCallback);
+    this->wrapper.Reset(isolate, external);
+    this->wrapper.SetWeak(this, WeakRefCallback);
+
+    this->functionTemplate.Reset(isolate, functionTemplate);
 
     return scope.Close(external);
 }
 
-
-ScriptObject* ScriptObject::Unwrap(v8::Isolate *isolate, v8::Handle<v8::Object> holder)
+v8::Handle<v8::FunctionTemplate> ScriptObjectMetadata::GetFunctionTemplate(v8::Isolate *isolate)
 {
     v8::HandleScope scope(isolate);
-
-    auto internalField = holder->GetInternalField(0);
-    auto external = internalField.As<v8::External>();
-    auto data = external->Value();
-
-    return static_cast<ScriptObject*>(data);
+    auto templateHandle = v8::Handle<v8::FunctionTemplate>::New(isolate, functionTemplate);
+    
+    return scope.Close(templateHandle);
 }
+
+void ScriptObjectMetadata::SetMethod(v8::Isolate *isolate, const char *name, v8::FunctionCallback callback)
+{
+    auto functionTemplateObj = GetFunctionTemplate(isolate);
+    auto function = v8::Function::New(isolate, callback);
+    functionTemplateObj->PrototypeTemplate()->Set(name, function);
+}
+
 
 void ScriptObject::WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptObject>& data)
 {

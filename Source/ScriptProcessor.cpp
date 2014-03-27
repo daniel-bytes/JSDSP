@@ -21,13 +21,6 @@ public:
 } mallocArrayBufferAllocator;
 
 
-
-void InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info)
-{
-    auto obj = ScriptObject::Unwrap(info.GetIsolate(), info.Holder());
-    obj->InvokeMethod(info);
-}
-
 void InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
 {
 }
@@ -44,8 +37,8 @@ void ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
     auto external = info.Data().As<v8::External>();
     auto externalValue = external->Value();
     auto metadata = static_cast<ScriptObjectMetadata*>(externalValue);
-
-    auto instance = metadata->ConstructObject(info);
+    
+    auto instance = metadata->ConstructObject(isolate);
     auto wrappedInstance = instance->Persist(isolate);
 
     info.Holder()->SetInternalField(0, wrappedInstance);
@@ -55,21 +48,16 @@ void ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::H
 {
     v8::HandleScope scope(isolate);
     
-    auto metadataExternal = metadata->Persist(isolate);
     auto ctorTemplate = v8::FunctionTemplate::New();
     auto instanceTemplate = ctorTemplate->InstanceTemplate();
     auto prototypeTemplate = ctorTemplate->PrototypeTemplate();
 
+    auto metadataExternal = metadata->Persist(isolate, ctorTemplate);
+    metadata->ConfigureMethods(isolate);
+
     instanceTemplate->SetInternalFieldCount(1);
 
     ctorTemplate->SetCallHandler(ConstructObject, metadataExternal);
-
-    auto methods = metadata->GetMethodNames();
-
-    for (auto method : methods) {
-        auto function = v8::Function::New(isolate, InvokeMethod);
-        prototypeTemplate->Set(method.toUTF8(), function);
-    }
 
     global->Set(v8::String::New(metadata->GetConstructorName()), ctorTemplate->GetFunction());
 }

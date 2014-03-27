@@ -3,17 +3,15 @@
 
 #include "../V8/v8.h"
 #include "../JuceLibraryCode/JuceHeader.h"
+#include <map>
 
 class ScriptObject
 {
 public:
-    virtual void InvokeMethod(const v8::FunctionCallbackInfo<v8::Value>& info) = 0;
-    virtual void InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info) = 0;
-    virtual void InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info) = 0;
-    
-public:
     v8::Handle<v8::External> Persist(v8::Isolate *isolate);
-    static ScriptObject* Unwrap(v8::Isolate *isolate, v8::Handle<v8::Object> holder);
+
+    template<typename TScriptObject>
+    static TScriptObject* Unwrap(v8::Isolate *isolate, v8::Handle<v8::Object> holder);
 
 private:
     static void WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptObject>& data);
@@ -23,28 +21,41 @@ private:
 };
 
 
-
 class ScriptObjectMetadata
 {
 public:
-    virtual juce::Array<juce::String> GetMethodNames(void) = 0;
     virtual const char* GetConstructorName(void) = 0;
-    virtual ScriptObject* ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info) = 0;
+
+    virtual ScriptObject* ConstructObject(v8::Isolate *isolate) = 0;
+
+    virtual void ConfigureMethods(v8::Isolate *isolate) = 0;
 
 public:
-    v8::Handle<v8::External> Persist(v8::Isolate *isolate);
+    v8::Handle<v8::External> Persist(v8::Isolate *isolate, v8::Handle<v8::FunctionTemplate> functionTemplate);
+
+protected:
+    v8::Handle<v8::FunctionTemplate> GetFunctionTemplate(v8::Isolate *isolate);
+    void SetMethod(v8::Isolate *isolate, const char *name, v8::FunctionCallback callback);
 
 private:
     static void WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptObjectMetadata>& data);
 
 private:
     v8::Persistent<v8::Value> wrapper;
+    v8::Persistent<v8::FunctionTemplate> functionTemplate;
 };
 
 
+template<typename TScriptObject>
+TScriptObject* ScriptObject::Unwrap(v8::Isolate *isolate, v8::Handle<v8::Object> holder)
+{
+    v8::HandleScope scope(isolate);
 
+    auto internalField = holder->GetInternalField(0);
+    auto external = internalField.As<v8::External>();
+    auto data = external->Value();
 
-
-
+    return static_cast<TScriptObject*>(data);
+}
 
 #endif //__SCRIPTOBJECT_H__
