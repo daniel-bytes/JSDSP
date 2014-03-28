@@ -22,7 +22,7 @@ public:
     public:
         virtual const char* GetConstructorName(void) { return "FileSystem"; }
 
-        virtual void ConfigureMethods(v8::Isolate *isolate);
+        virtual void Configure(v8::Isolate *isolate);
 
         virtual ScriptObject* ConstructObject(v8::Isolate *isolate);
     };

@@ -21,14 +21,6 @@ public:
 } mallocArrayBufferAllocator;
 
 
-void InvokeGetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
-{
-}
-
-void InvokeSetter(v8::Local<v8::String> name, const v8::PropertyCallbackInfo<v8::Value>& info)
-{
-}
-
 void ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
 {
     auto isolate = info.GetIsolate();
@@ -53,7 +45,7 @@ void ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::H
     auto prototypeTemplate = ctorTemplate->PrototypeTemplate();
 
     auto metadataExternal = metadata->Persist(isolate, ctorTemplate);
-    metadata->ConfigureMethods(isolate);
+    metadata->Configure(isolate);
 
     instanceTemplate->SetInternalFieldCount(1);
     ctorTemplate->SetCallHandler(ConstructObject, metadataExternal);

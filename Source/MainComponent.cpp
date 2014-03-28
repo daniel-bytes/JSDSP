@@ -30,7 +30,7 @@ MainComponent::MainComponent(void)
 
     auto fsMetadata = new FileSystem::Metadata();
     uiScriptMetadata.add(fsMetadata);
-    juce::String uiScript = "var fs = new FileSystem(); fs.test();";
+    juce::String uiScript = "var fs = new FileSystem(); fs.test(); fs.filePath = 'c:\temp'; var fp = fs.filePath;";
 
     juce::Array<ScriptObjectMetadata*> metadata(uiScriptMetadata.begin(), uiScriptMetadata.size());
     uiScriptProcessor->Execute(uiScript, metadata);
