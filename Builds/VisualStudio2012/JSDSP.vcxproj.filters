@@ -304,14 +304,17 @@
     <Filter Include="Libs\V8">
       <UniqueIdentifier>{236ce9b3-10a4-4c33-adc4-f9cdb55d1a9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine">
-      <UniqueIdentifier>{FBA6C474-F4FD-3A76-9E79-8FA48B945807}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Scripts">
       <UniqueIdentifier>{90fb4452-c2dd-4b4c-9b4c-fe51c57a8d62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Parser">
-      <UniqueIdentifier>{89de54aa-92be-4756-aaa8-b1a4c397cd31}</UniqueIdentifier>
+    <Filter Include="Source\Script Objects">
+      <UniqueIdentifier>{f13659c7-e698-494b-9c38-7720aee73aea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\DSP">
+      <UniqueIdentifier>{ffbc1a9b-72d6-4bca-b0d2-4658d8ddb991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{FBA6C474-F4FD-3A76-9E79-8FA48B945807}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1410,9 +1413,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp">
       <Filter>Libs\Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\DspCallback.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
@@ -1425,29 +1425,38 @@
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\AppWindow.cpp">
-      <Filter>Source\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ScriptableSlider.cpp">
-      <Filter>Source\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\XmlParser.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\AppComponent.cpp">
-      <Filter>Source\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Debugging.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\JSFile.cpp">
-      <Filter>Source\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\FileSystem.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ScriptObject.cpp">
       <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptObjectMetadata.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileSystem.cpp">
+      <Filter>Source\Script Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptableSlider.cpp">
+      <Filter>Source\Script Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AppComponent.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AppWindow.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\JSFile.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\XmlParser.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DspCallback.cpp">
+      <Filter>Source\DSP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptConsoleComponent.cpp">
+      <Filter>Source\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2762,9 +2771,6 @@
     <ClInclude Include="..\..\Libs\v8-testing.h">
       <Filter>Libs\V8</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\DspCallback.h">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
       <Filter>Source\UI</Filter>
     </ClInclude>
@@ -2792,31 +2798,40 @@
     <ClInclude Include="..\..\Source\ScriptProcessor.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\AppWindow.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ScriptableSlider.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\XmlParser.h">
-      <Filter>Source\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\AppComponent.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ParameterControl.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Debugging.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\JSFile.h">
-      <Filter>Source\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\FileSystem.h">
+    <ClInclude Include="..\..\Source\ScriptObjectMetadata.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ScriptObjects.h">
+    <ClInclude Include="..\..\Source\FileSystem.h">
+      <Filter>Source\Script Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptableSlider.h">
+      <Filter>Source\Script Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AppComponent.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AppWindow.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\JSFile.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\XmlParser.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DspCallback.h">
+      <Filter>Source\DSP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptConsoleComponent.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Printable.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>

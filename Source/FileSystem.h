@@ -3,6 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "ScriptObject.h"
+#include "ScriptObjectMetadata.h"
 
 class FileSystem
     : public ScriptObject

@@ -1,4 +1,5 @@
 #include "MainComponent.h"
+#include "ScriptConsoleComponent.h"
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
 #include "JSFile.h"
@@ -25,6 +26,10 @@ MainComponent::MainComponent(void)
     audioDeviceSelector = new AudioDeviceSelectorComponent(*audioDeviceManager, 0, 10, 2, 10, true, true, true, false);
     addAndMakeVisible(audioDeviceSelector);
     audioDeviceSelector->setBounds(5, 65, 600, 600);
+
+    scriptConsole = new ScriptConsoleComponent();
+    addAndMakeVisible(scriptConsole);
+    scriptConsole->setBounds(610, 25, 560, 420);
 
     uiScriptProcessor = new ScriptProcessor();
 

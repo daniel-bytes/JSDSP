@@ -1,5 +1,6 @@
 #include "ScriptProcessor.h"
 #include "ScriptObject.h"
+#include "ScriptObjectMetadata.h"
 #include <sstream>
 #include <exception>
 #include "Debugging.h"

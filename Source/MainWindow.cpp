@@ -9,9 +9,9 @@ MainWindow::MainWindow ()
       true)
 {
     setResizable (true, true); // resizability is a property of ResizableWindow
-    setResizeLimits (600, 450, 600, 450);
+    setResizeLimits (1200, 500, 1200, 500);
 
-    setSize (600, 450);
+    setSize (1200, 500);
 
 	setUsingNativeTitleBar(true);
 	mainComponent = new MainComponent();

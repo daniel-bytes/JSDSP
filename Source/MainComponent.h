@@ -7,6 +7,7 @@ using namespace juce;
 class DspCallback;
 class AppWindow;
 class ParameterControl;
+class ScriptConsoleComponent;
 class ScriptProcessor;
 class ScriptObjectMetadata;
 
@@ -32,6 +33,7 @@ private:
     ScopedPointer<AppWindow> appWindow;
 	ScopedPointer<AudioDeviceManager> audioDeviceManager;
     ScopedPointer<AudioDeviceSelectorComponent> audioDeviceSelector;
+    ScopedPointer<ScriptConsoleComponent> scriptConsole;
     ScopedPointer<DspCallback> dspCallback;
 
     ScopedPointer<ScriptProcessor> uiScriptProcessor;
