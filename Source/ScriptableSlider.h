@@ -5,6 +5,7 @@
 #include "AppComponent.h"
 
 #include "ParameterControl.h"
+#include "ScriptUIObject.h"
 
 struct ScriptableSliderCreateParams
 {
@@ -25,7 +26,8 @@ struct ScriptableSliderCreateParams
 
 class ScriptableSlider
     : public juce::Slider,
-      public ParameterControl
+      public ParameterControl,
+      public ScriptUIObject
 {
 public:
     ScriptableSlider(const ScriptableSliderCreateParams &params);

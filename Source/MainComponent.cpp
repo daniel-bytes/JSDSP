@@ -30,15 +30,14 @@ MainComponent::MainComponent(void)
     scriptConsole = new ScriptConsoleComponent();
     addAndMakeVisible(scriptConsole);
     scriptConsole->setBounds(610, 25, 560, 420);
+    scriptMetadata.add(scriptConsole);
 
     uiScriptProcessor = new ScriptProcessor();
 
-    auto fsMetadata = new FileSystem::Metadata();
-    uiScriptMetadata.add(fsMetadata);
-    juce::String uiScript = "var fs = new FileSystem(); fs.test(); fs.filePath = 'c:\temp'; var fp = fs.filePath;";
+    scriptMetadata.add(new FileSystem::Metadata());
 
-    juce::Array<ScriptObjectMetadata*> metadata(uiScriptMetadata.begin(), uiScriptMetadata.size());
-    uiScriptProcessor->Execute(uiScript, metadata);
+    juce::String uiScript = "log('this is', 'a test'); var fs = new FileSystem(); fs.test(); fs.filePath = 'c:\\temp'; log(fs.filePath);";
+    uiScriptProcessor->Execute(uiScript, scriptMetadata.begin(), scriptMetadata.end());
     //appWindow->toFront(true);
 }
 

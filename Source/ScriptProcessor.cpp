@@ -22,38 +22,6 @@ public:
 } mallocArrayBufferAllocator;
 
 
-void ConstructObject(const v8::FunctionCallbackInfo<v8::Value>& info)
-{
-    auto isolate = info.GetIsolate();
-    v8::HandleScope scope(isolate);
-
-    auto external = info.Data().As<v8::External>();
-    auto externalValue = external->Value();
-    auto metadata = static_cast<ScriptObjectMetadata*>(externalValue);
-    
-    auto instance = metadata->ConstructObject(isolate);
-    auto wrappedInstance = instance->Persist(isolate);
-
-    info.Holder()->SetInternalField(0, wrappedInstance);
-}
-
-void ConfigureObject(v8::Isolate *isolate, ScriptObjectMetadata *metadata, v8::Handle<v8::Object> global)
-{
-    v8::HandleScope scope(isolate);
-    
-    auto ctorTemplate = v8::FunctionTemplate::New();
-    auto instanceTemplate = ctorTemplate->InstanceTemplate();
-    auto prototypeTemplate = ctorTemplate->PrototypeTemplate();
-
-    auto metadataExternal = metadata->Persist(isolate, ctorTemplate);
-    metadata->Configure(isolate);
-
-    instanceTemplate->SetInternalFieldCount(1);
-    ctorTemplate->SetCallHandler(ConstructObject, metadataExternal);
-
-    global->Set(v8::String::New(metadata->GetConstructorName()), ctorTemplate->GetFunction());
-}
-
 ScriptProcessor::ScriptProcessor(void)
 {
 }
@@ -82,7 +50,7 @@ v8::Handle<v8::Context> ScriptProcessor::GetContext(void)
     return v8::Local<v8::Context>::New(isolate.value, context);
 }
 
-void ScriptProcessor::Execute(juce::String &script, juce::Array<ScriptObjectMetadata*> metadataObjects)
+void ScriptProcessor::Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd)
 {
     v8::HandleScope handle_scope(isolate.value);
 
@@ -94,9 +62,11 @@ void ScriptProcessor::Execute(juce::String &script, juce::Array<ScriptObjectMeta
 
     auto _isolate = EnterIsolate();
 
-    for (auto metadataObject : metadataObjects) {
-        registeredMetadata.add(metadataObject);
-        ConfigureObject(_isolate, metadataObject, tempContext->Global());
+    for (auto metadataObjectsIter = metadataObjectsBegin; metadataObjectsIter != metadataObjectsEnd; metadataObjectsIter++) {
+        auto metadataObject = *metadataObjectsIter;
+
+        metadataObject->Persist(_isolate);
+        metadataObject->Configure(_isolate);
     }
 
     // Create a string containing the JavaScript source code.

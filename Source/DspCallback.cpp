@@ -1,6 +1,7 @@
 #include "DspCallback.h"
 #include "ScriptProcessor.h"
 #include "ParameterControl.h"
+#include "ScriptMetadata.h"
 
 DspCallback::DspCallback(juce::Array<ParameterControl*> parameters)
       : currentSampleRate(0)
@@ -28,8 +29,8 @@ void DspCallback::audioDeviceAboutToStart(juce::AudioIODevice* device)
         // TODO:
         // scriptProcessor->Register(someDspType);
 
-        juce::Array<ScriptObjectMetadata*> metadata;
-        scriptProcessor->Execute(script, metadata);
+        juce::Array<ScriptMetadata*> metadata;
+        scriptProcessor->Execute(script, metadata.begin(), metadata.end());
     }
 }
 

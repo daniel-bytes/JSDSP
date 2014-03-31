@@ -4,7 +4,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../V8/v8.h"
 
-class ScriptObjectMetadata;
+class ScriptMetadata;
 
 // Executes a script in a new isolated v8 process.
 // This script should only be accessed from a single thread.
@@ -14,10 +14,8 @@ public:
 	ScriptProcessor(void);
 	~ScriptProcessor(void);
 
-private:
-
 public:
-	void Execute(juce::String &script, juce::Array<ScriptObjectMetadata*> metadataObjects);
+	void Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd);
 
     v8::Isolate* EnterIsolate(void);
     v8::Handle<v8::Context> GetContext(void);
@@ -57,7 +55,6 @@ private:
     v8::Persistent<v8::Context> context;
     v8::Persistent<v8::Function> processFunction;
     v8::Handle<v8::Script> compiledScript;
-    juce::Array<ScriptObjectMetadata*> registeredMetadata;
 };
 
 #endif //__SCRIPTPROCESSOR_H__

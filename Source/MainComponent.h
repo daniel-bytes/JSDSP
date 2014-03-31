@@ -9,7 +9,7 @@ class AppWindow;
 class ParameterControl;
 class ScriptConsoleComponent;
 class ScriptProcessor;
-class ScriptObjectMetadata;
+class ScriptMetadata;
 
 class MainComponent  
 	: public Component,
@@ -37,7 +37,7 @@ private:
     ScopedPointer<DspCallback> dspCallback;
 
     ScopedPointer<ScriptProcessor> uiScriptProcessor;
-    OwnedArray<ScriptObjectMetadata> uiScriptMetadata;
+    Array<ScriptMetadata*> scriptMetadata;
 
     OwnedArray<Component> allComponents;
     Array<ParameterControl*> allParameterControls;

@@ -1455,8 +1455,14 @@
     <ClCompile Include="..\..\Source\DspCallback.cpp">
       <Filter>Source\DSP</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptFunctionMetadata.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\ScriptConsoleComponent.cpp">
-      <Filter>Source\UI</Filter>
+      <Filter>Source\Script Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DocumentModel.cpp">
+      <Filter>Source\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2828,10 +2834,25 @@
     <ClInclude Include="..\..\Source\DspCallback.h">
       <Filter>Source\DSP</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ScriptConsoleComponent.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Printable.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptFunctionMetadata.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptConsoleComponent.h">
+      <Filter>Source\Script Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptUtility.h">
+      <Filter>Source\Script Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptMetadata.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DocumentModel.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptUIObject.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,7 +21,7 @@ public:
         : public ScriptObjectMetadata
     {
     public:
-        virtual const char* GetConstructorName(void) { return "FileSystem"; }
+        virtual const char* GetName(void) { return "FileSystem"; }
 
         virtual void Configure(v8::Isolate *isolate);
 
