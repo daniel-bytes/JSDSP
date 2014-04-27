@@ -50,8 +50,9 @@ v8::Handle<v8::Context> ScriptProcessor::GetContext(void)
     return v8::Local<v8::Context>::New(isolate.value, context);
 }
 
-void ScriptProcessor::Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd)
+ScriptProcessorResult ScriptProcessor::Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd)
 {
+    ScriptProcessorResult scriptResult;
     v8::HandleScope handle_scope(isolate.value);
 
     auto tempContext = v8::Context::New(isolate.value, nullptr, v8::ObjectTemplate::New());
@@ -81,12 +82,16 @@ void ScriptProcessor::Execute(juce::String &script, ScriptMetadata **metadataObj
 
     if (result.IsEmpty()) {
         auto msg = handleError(tryCatch);
-        throw new std::runtime_error(msg.toUTF8());
+        scriptResult.result = msg;
+        //throw new std::runtime_error(msg.toUTF8());
     }
     else {
+        // TODO: move this out of script processor
         juce::String funcName ="audioCallback";
         auto func = GetFunction(tempContext, funcName);
         processFunction.Reset(isolate.value, func);
+
+        scriptResult.success = true;
 
     #if DEBUG
         PrintError("Script compiled and ran successfully.  Result: ");
@@ -95,6 +100,8 @@ void ScriptProcessor::Execute(juce::String &script, ScriptMetadata **metadataObj
     #endif
     }
     _isolate->Exit();
+
+    return scriptResult;
 }
 
 v8::Handle<v8::Function> ScriptProcessor::GetFunction(v8::Handle<v8::Context> context, juce::String &name)

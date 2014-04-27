@@ -6,6 +6,7 @@
 #include "XmlParser.h"
 #include "AppWindow.h"
 #include "ScriptProcessor.h"
+#include "DocumentModel.h"
 #include "FileSystem.h"
 
 MainComponent::MainComponent(void)
@@ -30,15 +31,16 @@ MainComponent::MainComponent(void)
     scriptConsole = new ScriptConsoleComponent();
     addAndMakeVisible(scriptConsole);
     scriptConsole->setBounds(610, 25, 560, 420);
-    scriptMetadata.add(scriptConsole);
+    settings.scriptMetadata.add(scriptConsole);
+
+    documentModel = new DocumentModel();
+    settings.scriptMetadata.add(new DocumentModel::Metadata(documentModel));
+    settings.documentModel = this->documentModel;
+
+    settings.scriptMetadata.add(new FileSystem::Metadata());
+    //appWindow->toFront(true);
 
     uiScriptProcessor = new ScriptProcessor();
-
-    scriptMetadata.add(new FileSystem::Metadata());
-
-    juce::String uiScript = "log('this is', 'a test'); var fs = new FileSystem(); fs.test(); fs.filePath = 'c:\\temp'; log(fs.filePath);";
-    uiScriptProcessor->Execute(uiScript, scriptMetadata.begin(), scriptMetadata.end());
-    //appWindow->toFront(true);
 }
 
 MainComponent::~MainComponent(void)
@@ -50,11 +52,12 @@ MainComponent::~MainComponent(void)
 	audioDeviceManager = nullptr;
     dspCallback = nullptr;
     uiScriptProcessor = nullptr;
+    documentModel = nullptr;
 }
 
 void MainComponent::init(const String &filePath)
 {
-    ApplicationSettings settings;
+
     ParseXml(settings, filePath);
     appWindow = settings.window;
     allComponents.addArray(settings.allComponents);
@@ -70,8 +73,15 @@ void MainComponent::init(const String &filePath)
     }
 
     dspCallback = new DspCallback(allParameterControls);
-    dspCallback->SetAudioScript(settings.dspScript);
-    audioDeviceManager->addAudioCallback(dspCallback);
+    //dspCallback->SetAudioScript(settings.dspScript);
+    //audioDeviceManager->addAudioCallback(dspCallback);
+
+    juce::String uiScript = "var x = document.getElementById('frequency'); log(x);";
+    auto result = uiScriptProcessor->Execute(uiScript, settings.scriptMetadata.begin(), settings.scriptMetadata.end());
+
+    if (!result.success) {
+        scriptConsole->print(result.result);
+    }
 }
 
 void MainComponent::buttonClicked(Button *buttonThatWasClicked)

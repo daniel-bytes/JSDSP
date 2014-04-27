@@ -33,8 +33,18 @@ v8::Handle<v8::External> ScriptObjectMetadata::Persist(v8::Isolate *isolate)
     this->functionTemplateWrapper.Reset(isolate, ctorTemplate);
 
     global->Set(v8::String::New(this->GetName()), ctorTemplate->GetFunction());
-
+    
     return scope.Close(external);
+}
+
+v8::Handle<v8::Object> ScriptObjectMetadata::NewInstance(v8::Isolate *isolate)
+{
+    v8::HandleScope scope(isolate);
+
+    auto functionTemplate = GetFunctionTemplate(isolate);
+    auto instance = functionTemplate->InstanceTemplate()->NewInstance();
+
+    return scope.Close(instance);
 }
 
 v8::Handle<v8::FunctionTemplate> ScriptObjectMetadata::GetFunctionTemplate(v8::Isolate *isolate)

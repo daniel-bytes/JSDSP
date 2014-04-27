@@ -1,5 +1,6 @@
 #include "XmlParser.h"
 #include "AppWindow.h"
+#include "DocumentModel.h"
 #include "ScriptableSlider.h"
 #include "JSFile.h"
 
@@ -176,10 +177,14 @@ bool ParseSliderControl(ApplicationSettings &settings, XmlElement *element, Comp
     params.height = GetIntAttribute(element, "height", 0);
     params.style = style;
 
-    auto slider = new ScriptableSlider(params);
+    auto slider = new ScriptableSlider();
+    slider->init(params);
+    slider->DeleteOnGC(false);
     parentComponent->addAndMakeVisible(slider);
     settings.allComponents.add(slider);
     settings.allParameterControls.add(slider);
+    settings.documentModel->AppendElement(slider);
+    settings.scriptMetadata.add(new ScriptableSlider::Metadata(slider));
 
     return true;
 }

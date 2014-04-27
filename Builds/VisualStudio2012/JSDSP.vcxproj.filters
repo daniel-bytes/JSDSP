@@ -1464,6 +1464,9 @@
     <ClCompile Include="..\..\Source\DocumentModel.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptSingletonMetadata.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainMenuBar.h">
@@ -2853,6 +2856,9 @@
       <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ScriptUIObject.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptSingletonMetadata.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
   </ItemGroup>

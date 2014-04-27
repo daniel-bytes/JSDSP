@@ -2,6 +2,7 @@
 #define __MAINCOMPONENT_H__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "XmlParser.h"
 using namespace juce;
 
 class DspCallback;
@@ -10,6 +11,7 @@ class ParameterControl;
 class ScriptConsoleComponent;
 class ScriptProcessor;
 class ScriptMetadata;
+class DocumentModel;
 
 class MainComponent  
 	: public Component,
@@ -35,13 +37,14 @@ private:
     ScopedPointer<AudioDeviceSelectorComponent> audioDeviceSelector;
     ScopedPointer<ScriptConsoleComponent> scriptConsole;
     ScopedPointer<DspCallback> dspCallback;
+    ScopedPointer<DocumentModel> documentModel;
 
     ScopedPointer<ScriptProcessor> uiScriptProcessor;
-    Array<ScriptMetadata*> scriptMetadata;
 
     OwnedArray<Component> allComponents;
     Array<ParameterControl*> allParameterControls;
 
+    ApplicationSettings settings;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
 

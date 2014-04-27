@@ -6,6 +6,7 @@
 
 #include "ParameterControl.h"
 #include "ScriptUIObject.h"
+#include "ScriptSingletonMetadata.h"
 
 struct ScriptableSliderCreateParams
 {
@@ -30,12 +31,24 @@ class ScriptableSlider
       public ScriptUIObject
 {
 public:
-    ScriptableSlider(const ScriptableSliderCreateParams &params);
+    ScriptableSlider(void);
     ~ScriptableSlider(void);
+
+    void init(const ScriptableSliderCreateParams &params);
 
     virtual void valueChanged();
     virtual int getParameterCount(void) const;
     virtual bool getParameter(int index, juce::String &name, juce::var &value);
+
+public:
+    class Metadata
+        : public ScriptSingletonMetadata
+    {
+    public:
+        Metadata(ScriptableSlider *instance);
+        virtual const char* GetName(void);
+        virtual void Configure(v8::Isolate *isolate);
+    };
 
 private:
     juce::ScopedPointer<juce::Label> label;

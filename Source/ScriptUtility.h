@@ -16,6 +16,18 @@ inline juce::String ToJuceString(v8::Handle<v8::Value> &value)
     return result;
 }
 
+template<typename TScriptObject>
+TScriptObject* UnwrapSingletonFromThis(v8::Isolate *isolate, v8::Handle<v8::Object> jsThis)
+{
+    v8::HandleScope scope(isolate);
+
+    auto data = jsThis->Get(v8::String::New("__instance"));
+    
+    auto external = data.As<v8::External>();
+    auto ptr = external->Value();
+
+    return static_cast<TScriptObject*>(ptr);
+}
 
 template<typename TScriptObject>
 TScriptObject* UnwrapInternalDataObject(v8::Isolate *isolate, v8::Handle<v8::Value> data)

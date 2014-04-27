@@ -2,64 +2,63 @@
 #include "ScriptUIObject.h"
 #include "ScriptUtility.h"
 
-/*
- * Metadata Objects
- */
-
-class GetElementByIDMetadata
-    : public ScriptFunctionMetadata
-{
-public:
-    GetElementByIDMetadata(DocumentModel *parent)
-        : parent(parent) {}
-
-public:
-    virtual const char* GetName(void) { return "getElementById"; }
-
-    virtual void FunctionCallback(const v8::FunctionCallbackInfo<v8::Value>& info);
-
-private:
-    DocumentModel *parent;
-};
-
-void GetElementByIDMetadata::FunctionCallback(const v8::FunctionCallbackInfo<v8::Value>& info)
-{
-    v8::HandleScope scope(info.GetIsolate());
-
-    if (info.Length() == 0) {
-        return;
-    }
-
-    auto id = ToJuceString(info[0]);
-    auto element = parent->GetElementByID(id);
-
-    if (element == nullptr) {
-        //info.GetReturnValue().Set(
-    }
-}
-
-
-/*
- * DocumentModel
- */
 DocumentModel::DocumentModel(void)
 {
-    functionMetadata.add(new GetElementByIDMetadata(this));
+}
+
+DocumentModel::~DocumentModel(void)
+{
 }
 
 void DocumentModel::AppendElement(ScriptUIObject *object)
 {
-    this->documentModelByID.set(object->GetID(), object);
+    auto hashCode = object->GetID().hashCode64();
+    this->documentModelByID[hashCode] = object;
 }
 
 ScriptUIObject* DocumentModel::GetElementByID(const juce::String &id)
 {
-    return this->documentModelByID[id];
+    auto hashCode = id.hashCode64();
+    
+    auto iter = this->documentModelByID.find(hashCode);
+
+    if (iter != this->documentModelByID.end()) {
+        return iter->second;
+    }
+
+    return nullptr;
 }
 
-juce::Array<ScriptFunctionMetadata*> DocumentModel::GetFunctionMetadata(void)
+DocumentModel::Metadata::Metadata(DocumentModel *instance)
+    : ScriptSingletonMetadata(instance)
 {
-    juce::Array<ScriptFunctionMetadata*> arr(functionMetadata);
 
-    return arr;
+}
+
+const char* DocumentModel::Metadata::GetName(void)
+{
+    return "document";
+}
+
+void DocumentModel::Metadata::Configure(v8::Isolate *isolate)
+{
+    v8::HandleScope scope(isolate);
+
+    SetMethod(isolate, "getElementById", 
+        [] (const v8::FunctionCallbackInfo<v8::Value>& info) {
+            auto obj = UnwrapSingletonFromThis<DocumentModel>(info.GetIsolate(), info.This());
+            v8::HandleScope scope(info.GetIsolate());
+
+            if (info.Length() == 0) {
+                return;
+            }
+
+            auto id = ToJuceString(info[0]);
+            auto element = obj->GetElementByID(id);
+
+            if (element != nullptr) {
+                auto value = element->Wrap(info.GetIsolate());
+                info.GetReturnValue().Set(value);
+            }
+        });
 }

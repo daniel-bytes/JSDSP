@@ -6,6 +6,12 @@
 
 class ScriptMetadata;
 
+struct ScriptProcessorResult
+{
+    bool success;
+    juce::String result;
+};
+
 // Executes a script in a new isolated v8 process.
 // This script should only be accessed from a single thread.
 class ScriptProcessor
@@ -15,7 +21,7 @@ public:
 	~ScriptProcessor(void);
 
 public:
-	void Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd);
+	ScriptProcessorResult Execute(juce::String &script, ScriptMetadata **metadataObjectsBegin, ScriptMetadata **metadataObjectsEnd);
 
     v8::Isolate* EnterIsolate(void);
     v8::Handle<v8::Context> GetContext(void);

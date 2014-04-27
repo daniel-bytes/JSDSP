@@ -1214,6 +1214,7 @@
     <ClCompile Include="..\..\Source\ScriptObjectMetadata.cpp" />
     <ClCompile Include="..\..\Source\ScriptProcessor.cpp" />
     <ClCompile Include="..\..\Source\DocumentModel.cpp" />
+    <ClCompile Include="..\..\Source\ScriptSingletonMetadata.cpp" />
     <ClCompile Include="..\..\Source\XmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1677,6 +1678,7 @@
     <ClInclude Include="..\..\Source\ScriptObject.h" />
     <ClInclude Include="..\..\Source\ScriptObjectMetadata.h" />
     <ClInclude Include="..\..\Source\ScriptProcessor.h" />
+    <ClInclude Include="..\..\Source\ScriptSingletonMetadata.h" />
     <ClInclude Include="..\..\Source\ScriptUIObject.h" />
     <ClInclude Include="..\..\Source\ScriptUtility.h" />
     <ClInclude Include="..\..\Source\XmlParser.h" />

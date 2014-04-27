@@ -12,13 +12,13 @@ void FileSystem::SetFilePath(const juce::String &value)
 }
 
 void FileSystem::Metadata::Configure(v8::Isolate *isolate)
-{
+{/*
     SetMethod(isolate, "test", 
         [] (const v8::FunctionCallbackInfo<v8::Value>& info) {
             auto obj = UnwrapInternalObject<FileSystem>(info.GetIsolate(), info.Holder());
             obj->test();
         });
-
+        */
     SetProperty(isolate, "filePath", 
         [] (v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
             auto obj = UnwrapInternalObject<FileSystem>(info.GetIsolate(), info.Holder());
