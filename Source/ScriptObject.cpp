@@ -21,7 +21,7 @@ void ScriptObject::WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptO
     }
 }
 
-v8::Handle<v8::External> ScriptObject::Persist(v8::Isolate *isolate)
+v8::Handle<v8::External> ScriptObject::Persist(v8::Isolate *isolate, bool makeWeak)
 {
     v8::HandleScope scope(isolate);
     
@@ -29,20 +29,11 @@ v8::Handle<v8::External> ScriptObject::Persist(v8::Isolate *isolate)
 
     if (instanceWrapper.IsEmpty()) {
         instanceWrapper.Reset(isolate, external);
-        instanceWrapper.SetWeak(this, WeakRefCallback);
+
+        if (makeWeak) {
+            instanceWrapper.SetWeak(this, WeakRefCallback);
+        }
     }
         
     return scope.Close(external);
-}
-
-v8::Handle<v8::Object> ScriptObject::Wrap(v8::Isolate *isolate)
-{
-    v8::HandleScope scope(isolate);
-
-    auto external = Persist(isolate);
-    auto obj = v8::Object::New();
-
-    obj->Set(v8::String::New("__data"), external);
-
-    return scope.Close(obj);
 }

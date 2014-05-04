@@ -3,6 +3,7 @@
   <scripts>
     <!-- Script types: "dsp" or "ui" -->
     <!-- Script path types: "file" or "web" -->
+    <script type="ui"  pathtype="file" path="UI.js" />
     <script type="dsp" pathtype="file" path="TestAudioCallback.js" />
     <script type="dsp" pathtype="file" path="sawtooth.js" />
     <!--

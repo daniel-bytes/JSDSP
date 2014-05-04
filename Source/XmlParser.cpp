@@ -180,11 +180,15 @@ bool ParseSliderControl(ApplicationSettings &settings, XmlElement *element, Comp
     auto slider = new ScriptableSlider();
     slider->init(params);
     slider->DeleteOnGC(false);
+
     parentComponent->addAndMakeVisible(slider);
     settings.allComponents.add(slider);
     settings.allParameterControls.add(slider);
     settings.documentModel->AppendElement(slider);
-    settings.scriptMetadata.add(new ScriptableSlider::Metadata(slider));
+
+    auto metadata = new ScriptableSliderMetadata(slider);
+    slider->SetMetadata(metadata);
+    settings.scriptMetadata.add(metadata);
 
     return true;
 }

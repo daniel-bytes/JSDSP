@@ -1210,6 +1210,7 @@
     <ClCompile Include="..\..\Source\ScriptableSlider.cpp" />
     <ClCompile Include="..\..\Source\ScriptConsoleComponent.cpp" />
     <ClCompile Include="..\..\Source\ScriptFunctionMetadata.cpp" />
+    <ClCompile Include="..\..\Source\ScriptMetadata.cpp" />
     <ClCompile Include="..\..\Source\ScriptObject.cpp" />
     <ClCompile Include="..\..\Source\ScriptObjectMetadata.cpp" />
     <ClCompile Include="..\..\Source\ScriptProcessor.cpp" />
@@ -1699,6 +1700,9 @@
     <None Include="..\..\JuceLibraryCode\modules\juce_video\juce_module_info" />
     <None Include="..\..\Source\Sawtooth.js" />
     <None Include="..\..\Source\TestAudioCallback.js">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\..\Source\UI.js">
       <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>

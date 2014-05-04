@@ -23,14 +23,15 @@ ScriptUIObject* DocumentModel::GetElementByID(const juce::String &id)
     auto iter = this->documentModelByID.find(hashCode);
 
     if (iter != this->documentModelByID.end()) {
-        return iter->second;
+        auto scriptObject = iter->second;
+        return scriptObject;
     }
 
     return nullptr;
 }
 
 DocumentModel::Metadata::Metadata(DocumentModel *instance)
-    : ScriptSingletonMetadata(instance)
+    : ScriptSingletonMetadata(instance, true)
 {
 
 }
@@ -46,19 +47,25 @@ void DocumentModel::Metadata::Configure(v8::Isolate *isolate)
 
     SetMethod(isolate, "getElementById", 
         [] (const v8::FunctionCallbackInfo<v8::Value>& info) {
-            auto obj = UnwrapSingletonFromThis<DocumentModel>(info.GetIsolate(), info.This());
-            v8::HandleScope scope(info.GetIsolate());
-
             if (info.Length() == 0) {
                 return;
             }
+
+            auto isolate = info.GetIsolate();
+            v8::HandleScope scope(isolate);
+
+            auto self = info.Holder();
+            auto obj = UnwrapEmbeddedInstance<DocumentModel>(isolate, self);
 
             auto id = ToJuceString(info[0]);
             auto element = obj->GetElementByID(id);
 
             if (element != nullptr) {
-                auto value = element->Wrap(info.GetIsolate());
-                info.GetReturnValue().Set(value);
+                auto metadata = element->GetMetadata();
+                auto obj = metadata->GetObjectWrapper(isolate);
+
+                //auto obj = element->Wrap(info.GetIsolate());
+                info.GetReturnValue().Set(obj);
             }
         });
 }

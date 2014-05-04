@@ -3,6 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../V8/v8.h"
+#include <exception>
 
 inline juce::String ToJuceString(v8::Handle<v8::Value> &value)
 {
@@ -17,11 +18,31 @@ inline juce::String ToJuceString(v8::Handle<v8::Value> &value)
 }
 
 template<typename TScriptObject>
-TScriptObject* UnwrapSingletonFromThis(v8::Isolate *isolate, v8::Handle<v8::Object> jsThis)
+TScriptObject* UnwrapEmbeddedInstance(v8::Isolate *isolate, v8::Handle<v8::Object> jsThis)
 {
+    const char *propertyName = "__instance";
+
     v8::HandleScope scope(isolate);
 
-    auto data = jsThis->Get(v8::String::New("__instance"));
+#if DEBUG
+    bool found = false;
+    auto names = jsThis->GetPropertyNames();
+    for (int i = 0; i < names->Length(); i++) {
+        auto temp = names->Get(i);
+        auto str = ToJuceString(temp);
+
+        if (str == propertyName) {
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        throw std::runtime_error("Failed to locate __instance property.");
+    }
+#endif
+
+    auto data = jsThis->Get(v8::String::New(propertyName));
     
     auto external = data.As<v8::External>();
     auto ptr = external->Value();

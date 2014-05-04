@@ -57,7 +57,6 @@ MainComponent::~MainComponent(void)
 
 void MainComponent::init(const String &filePath)
 {
-
     ParseXml(settings, filePath);
     appWindow = settings.window;
     allComponents.addArray(settings.allComponents);
@@ -76,8 +75,7 @@ void MainComponent::init(const String &filePath)
     //dspCallback->SetAudioScript(settings.dspScript);
     //audioDeviceManager->addAudioCallback(dspCallback);
 
-    juce::String uiScript = "var x = document.getElementById('frequency'); log(x);";
-    auto result = uiScriptProcessor->Execute(uiScript, settings.scriptMetadata.begin(), settings.scriptMetadata.end());
+    auto result = uiScriptProcessor->Execute(settings.uiScript, settings.scriptMetadata.begin(), settings.scriptMetadata.end());
 
     if (!result.success) {
         scriptConsole->print(result.result);

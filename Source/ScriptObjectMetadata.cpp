@@ -26,7 +26,7 @@ v8::Handle<v8::External> ScriptObjectMetadata::Persist(v8::Isolate *isolate)
     ctorTemplate->SetCallHandler([] (const v8::FunctionCallbackInfo<v8::Value>& info) {
         auto metadata = UnwrapInternalDataObject<ScriptObjectMetadata>(info.GetIsolate(), info.Data());
         auto instance = metadata->ConstructObject(info.GetIsolate());
-        auto instanceExternal = instance->Persist(info.GetIsolate());
+        auto instanceExternal = instance->Persist(info.GetIsolate(), true);
         info.Holder()->SetInternalField(0, instanceExternal);
     }, external);
     

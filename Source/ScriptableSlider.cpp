@@ -1,7 +1,8 @@
 #include "ScriptableSlider.h"
 #include "ScriptUtility.h"
 
-ScriptableSlider::ScriptableSlider(void)
+ScriptableSlider::ScriptableSlider()
+    : data(this)
 {
 }
 
@@ -30,6 +31,8 @@ void ScriptableSlider::init(const ScriptableSliderCreateParams &params)
 
 void ScriptableSlider::valueChanged()
 {
+    auto value = this->getValue();
+    this->data.setValue(value);
 }
 
 
@@ -50,31 +53,52 @@ bool ScriptableSlider::getParameter(int index, juce::String &name, juce::var &va
     return true;
 }
 
-ScriptableSlider::Metadata::Metadata(ScriptableSlider *instance)
-    : ScriptSingletonMetadata(instance)
+v8::Handle<v8::External> ScriptableSlider::Persist(v8::Isolate *isolate, bool makeWeak)
+{
+    v8::HandleScope scope(isolate);
+    auto external = this->data.Persist(isolate, makeWeak);
+    return scope.Close(external); 
+}
+
+ScriptableSliderMetadata::ScriptableSliderMetadata(ScriptableSlider *instance)
+    : ScriptSingletonMetadata(static_cast<ScriptObject*>(instance), false)
 {
 }
 
-const char* ScriptableSlider::Metadata::GetName(void)
+const char* ScriptableSliderMetadata::GetName(void)
 {
     auto slider = (ScriptableSlider*)this->scriptObjectInstance;
     return slider->getComponentID().toUTF8();
 }
 
-void ScriptableSlider::Metadata::Configure(v8::Isolate *isolate)
+void ScriptableSliderMetadata::Configure(v8::Isolate *isolate)
 {
     SetProperty(isolate, "parameter",
         [] (v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
-            v8::HandleScope scope(info.GetIsolate());
-            auto instance = UnwrapInternalObject<ScriptableSlider>(info.GetIsolate(), info.Holder());
-            info.GetReturnValue().Set(instance->getValue());
+            auto isolate = info.GetIsolate();
+            v8::HandleScope scope(isolate);
+
+            auto self = info.Holder();
+            auto instance = UnwrapEmbeddedInstance<ScriptableSliderData>(isolate, self);
+            auto value = instance->getValue();
+            info.GetReturnValue().Set(value);
         },
         [] (v8::Local<v8::String> property, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<void>& info) {
-            v8::HandleScope scope(info.GetIsolate());
-            auto instance = UnwrapInternalObject<ScriptableSlider>(info.GetIsolate(), info.Holder());
+            auto isolate = info.GetIsolate();
+            v8::HandleScope scope(isolate);
+
+            auto self = info.Holder();
+            auto instance = UnwrapEmbeddedInstance<ScriptableSliderData>(isolate, self);
             if (value->IsNumber()) {
                 auto number = value->NumberValue();
                 instance->setValue(number);
             }
         });
 }
+
+
+ScriptableSliderData::ScriptableSliderData(ScriptableSlider *parent) 
+    : value(0), parent(parent) {}
+
+double ScriptableSliderData::getValue(void) { return value; }
+void ScriptableSliderData::setValue(double value) { this->value = value; parent->setValue(value, juce::NotificationType::dontSendNotification); }

@@ -2,6 +2,7 @@
 #define __SCRIPTMETADATA_H__
 
 #include "../V8/v8.h"
+#include <map>
 
 class ScriptMetadata
 {

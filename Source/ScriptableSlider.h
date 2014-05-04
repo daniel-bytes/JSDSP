@@ -8,6 +8,8 @@
 #include "ScriptUIObject.h"
 #include "ScriptSingletonMetadata.h"
 
+class ScriptableSlider;
+
 struct ScriptableSliderCreateParams
 {
     int x;
@@ -25,6 +27,28 @@ struct ScriptableSliderCreateParams
     juce::Slider::TextEntryBoxPosition textposition;
 };
 
+class ScriptableSliderData
+    : public ScriptObject
+{
+public:
+    ScriptableSliderData(ScriptableSlider *parent);
+    double getValue(void);
+    void setValue(double value);
+
+private:
+    ScriptableSlider *parent;
+    double value;
+};
+
+class ScriptableSliderMetadata
+    : public ScriptSingletonMetadata
+{
+public:
+    ScriptableSliderMetadata(ScriptableSlider *instance);
+    virtual const char* GetName(void);
+    virtual void Configure(v8::Isolate *isolate);
+};
+
 class ScriptableSlider
     : public juce::Slider,
       public ParameterControl,
@@ -35,24 +59,17 @@ public:
     ~ScriptableSlider(void);
 
     void init(const ScriptableSliderCreateParams &params);
+    virtual v8::Handle<v8::External> Persist(v8::Isolate *isolate, bool makeWeak);
 
     virtual void valueChanged();
     virtual int getParameterCount(void) const;
     virtual bool getParameter(int index, juce::String &name, juce::var &value);
 
-public:
-    class Metadata
-        : public ScriptSingletonMetadata
-    {
-    public:
-        Metadata(ScriptableSlider *instance);
-        virtual const char* GetName(void);
-        virtual void Configure(v8::Isolate *isolate);
-    };
-
 private:
     juce::ScopedPointer<juce::Label> label;
     juce::String parameterName;
+    ScriptableSliderMetadata *metadata;
+    ScriptableSliderData data;
 };
 
 #endif //__SCRIPTABLESLIDER_H__

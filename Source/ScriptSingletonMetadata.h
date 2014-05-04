@@ -10,7 +10,7 @@ class ScriptSingletonMetadata
     : public ScriptMetadata
 {
 public:
-    ScriptSingletonMetadata(ScriptObject *instance);
+    ScriptSingletonMetadata(ScriptObject *instance, bool attachToGlobal);
 
     virtual const char* GetName(void) = 0;
 
@@ -18,10 +18,9 @@ public:
 
     virtual v8::Handle<v8::External> Persist(v8::Isolate *isolate);
 
-protected:
     v8::Handle<v8::Object> GetObjectWrapper(v8::Isolate *isolate);
-    v8::Handle<v8::Value> GetInstanceWrapper(v8::Isolate *isolate);
 
+protected:
     void SetMethod(v8::Isolate *isolate, 
                    const char *name, 
                    v8::FunctionCallback callback);
@@ -32,13 +31,13 @@ protected:
                      v8::AccessorSetterCallback setter = (v8::AccessorSetterCallback)nullptr);
 
 private:
-    static void WeakRefCallback(const v8::WeakCallbackData<v8::Value, ScriptSingletonMetadata>& data);
+    static void WeakRefCallback(const v8::WeakCallbackData<v8::Object, ScriptSingletonMetadata>& data);
 
 protected:
     ScriptObject *scriptObjectInstance;
 
 private:
-    v8::Persistent<v8::Value> instanceWrapper;
+    bool attachToGlobal;
     v8::Persistent<v8::Object> objectWrapper;
 };
 

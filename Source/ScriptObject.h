@@ -11,8 +11,7 @@ public:
     ScriptObject(void);
 
 public:
-    v8::Handle<v8::External> Persist(v8::Isolate *isolate);
-    v8::Handle<v8::Object> Wrap(v8::Isolate *isolate);
+    virtual v8::Handle<v8::External> Persist(v8::Isolate *isolate, bool makeWeak);
     void DeleteOnGC(bool value);
 
 private:
