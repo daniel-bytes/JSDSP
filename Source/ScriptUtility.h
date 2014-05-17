@@ -5,6 +5,15 @@
 #include "../V8/v8.h"
 #include <exception>
 
+#if WIN32
+#include <windows.h>
+
+inline int CurrentThreadID()
+{
+    return GetCurrentThreadId();
+}
+#endif
+
 inline juce::String ToJuceString(v8::Handle<v8::Value> &value)
 {
     juce::String result;

@@ -20,6 +20,9 @@ public:
 
     v8::Handle<v8::Object> GetObjectWrapper(v8::Isolate *isolate);
 
+public:
+    v8::Isolate* GetConfiguredIsolate(void) const { return isolate; }
+
 protected:
     void SetMethod(v8::Isolate *isolate, 
                    const char *name, 
@@ -35,6 +38,7 @@ private:
 
 protected:
     ScriptObject *scriptObjectInstance;
+    v8::Isolate *isolate;
 
 private:
     bool attachToGlobal;

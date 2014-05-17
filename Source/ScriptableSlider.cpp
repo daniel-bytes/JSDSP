@@ -33,6 +33,23 @@ void ScriptableSlider::valueChanged()
 {
     auto value = this->getValue();
     this->data.setValue(value);
+    auto metadata = this->GetMetadata();
+
+    if (metadata == nullptr) {
+        return;
+    }
+
+    auto sliderMetadata = (ScriptableSliderMetadata*)metadata;
+    auto isolate = v8::Isolate::GetCurrent();
+    v8::Locker lock(isolate);
+    v8::HandleScope scope(isolate);
+    auto wrapper = sliderMetadata->GetObjectWrapper(isolate);
+    auto callback = wrapper->Get(v8::String::New("parameterChanged"));
+
+    if (callback->IsFunction()) {
+        v8::Handle<v8::Value> values[] = { v8::Number::New(isolate, value) };
+        callback.As<v8::Function>()->Call(wrapper, 1, values);
+    }
 }
 
 
@@ -100,5 +117,13 @@ void ScriptableSliderMetadata::Configure(v8::Isolate *isolate)
 ScriptableSliderData::ScriptableSliderData(ScriptableSlider *parent) 
     : value(0), parent(parent) {}
 
-double ScriptableSliderData::getValue(void) { return value; }
-void ScriptableSliderData::setValue(double value) { this->value = value; parent->setValue(value, juce::NotificationType::dontSendNotification); }
+double ScriptableSliderData::getValue(void) 
+{ 
+    return value; 
+}
+
+void ScriptableSliderData::setValue(double value) 
+{ 
+    this->value = value; 
+    parent->setValue(value, juce::NotificationType::dontSendNotification);
+}

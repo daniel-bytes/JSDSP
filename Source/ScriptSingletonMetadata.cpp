@@ -4,7 +4,7 @@
 
 
 ScriptSingletonMetadata::ScriptSingletonMetadata(ScriptObject *instance, bool attachToGlobal)
-    : scriptObjectInstance(instance), attachToGlobal(attachToGlobal)
+    : scriptObjectInstance(instance), attachToGlobal(attachToGlobal), isolate(nullptr)
 {
 }
 
@@ -50,6 +50,7 @@ v8::Handle<v8::Object> ScriptSingletonMetadata::GetObjectWrapper(v8::Isolate *is
 
 void ScriptSingletonMetadata::Configure(v8::Isolate *isolate)
 {
+    this->isolate = isolate;
 }
 
 void ScriptSingletonMetadata::SetMethod(v8::Isolate *isolate, 

@@ -68,7 +68,6 @@ public:
 private:
     juce::ScopedPointer<juce::Label> label;
     juce::String parameterName;
-    ScriptableSliderMetadata *metadata;
     ScriptableSliderData data;
 };
 

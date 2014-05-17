@@ -10,6 +10,7 @@ class ScriptUIObject
 {
 public:
     ScriptUIObject(void)
+        : metadata(nullptr)
     {
     }
 
